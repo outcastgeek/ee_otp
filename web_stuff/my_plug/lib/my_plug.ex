@@ -9,7 +9,7 @@ defmodule MyPlug do
   end
 
   def call(conn, _opts) do
-    Logger.info "Hello world"
+    Logger.info "Hello world from #{Node.self}"
     conn
     |> put_resp_content_type("text/plain")
     |> send_resp(200, "Hello world")
