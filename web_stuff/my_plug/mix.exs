@@ -4,7 +4,7 @@ defmodule MyPlug.Mixfile do
   def project do
     [app: :my_plug,
      version: "0.0.1",
-     elixir: "~> 0.15.1",
+     elixir: "~> 1.0.0",
      deps: deps]
   end
 
@@ -27,6 +27,6 @@ defmodule MyPlug.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [{ :cowboy, "~> 1.0.0" },
-     { :plug, "~> 0.6.0" }]
+     { :plug, "~> 0.7.0" }]
   end
 end

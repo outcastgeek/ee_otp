@@ -4,7 +4,7 @@ defmodule Weather.Mixfile do
   def project do
     [app: :weather,
      version: "0.0.1",
-     elixir: "~> 0.15.1",
+     elixir: "~> 1.0.0",
      deps: deps]
   end
 

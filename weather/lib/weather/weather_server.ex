@@ -1,7 +1,7 @@
 
 defmodule WeatherServer do
   use GenServer
-  require Logger
+  #require Logger
 
   # convenience method for startup
   def start_link do
@@ -20,7 +20,8 @@ defmodule WeatherServer do
   end
 
   def handle_cast(_msg, state) do
-    Logger.info "Recently viewed: #{inspect(state)}"
+    #Logger.info "Recently viewed: #{inspect(state)}"
+    IO.puts  "Recently viewed: #{inspect(state)}"
     {:noreply, state}
   end
 
@@ -45,9 +46,8 @@ defmodule WeatherServer do
   """
 
   def get_weather(station, state) do
-    url = "http://w1.weather.gov/xml/current_obs/" <> station
-    <> ".xml"
-    {status, data} :httpc.request(to_char_list(url))
+    url = "http://w1.weather.gov/xml/current_obs/#{station}.xml"
+    {status, data} = :httpc.request(to_char_list(url))
     case status do
       :error ->
         reply = {status, data}
@@ -75,11 +75,11 @@ defmodule WeatherServer do
   # return a tuple with the element name and that elements's text
   # content
 
-  @spec get_content(atom, String.t) :: {aomt, String.t}
+  @spec get_content(atom, String.t) :: {atom, String.t}
 
   defp get_content(element_name, xml) do
-    {_pattern} = Regex.compile(
-                               "<#{element_name}>([^<]+)</#{atom_to_binary(element_name)}>")
+    {_, pattern} = Regex.compile(
+                               "<#{element_name}>([^<]+)</#{String.atom_to_binary(element_name)}>")
     result = Regex.run(pattern, xml)
     case result do
       [_all, match] -> {element_name, match}

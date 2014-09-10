@@ -13,7 +13,11 @@ defmodule Weather do
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Weather.Supervisor]
+    #opts = [strategy: :one_for_one, name: Weather.Supervisor] 
+    opts = [strategy: :one_for_one, name: Weather.WeatherServer ]
     Supervisor.start_link(children, opts)
+
+    WeatherServer.reposrt("KGAI")
   end
 end
+
