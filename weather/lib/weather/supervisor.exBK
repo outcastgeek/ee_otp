@@ -1,5 +1,5 @@
 
-defmodule Supervisor do
+defmodule Weather.Supervisor do
   use Supervisor
 
   # convenience method for startup

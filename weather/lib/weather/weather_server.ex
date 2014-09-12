@@ -8,6 +8,38 @@ defmodule WeatherServer do
     GenServer.start_link(__MODULE__, [], [{:name, __MODULE__}])
   end
 
+  # Wrapper functions to hide internals of GenServer.
+  # These should go with internal functions, but I put them
+  # here so they are at the very start of the étude.
+  @doc "Connect to another node"
+  @spec connec(atom) :: atom
+
+  def connect(other_node) do
+    case :net_adm.ping(other_node) do
+      :pong ->
+        IO.puts("Connected to server.")
+        :ok
+      :pang ->
+        IO.puts("Could not connect.")
+        :error
+    end
+  end
+
+  @doc "Report weather from a given station."
+  @spec report(String.t) :: {atom, list}
+
+  def report(station) do
+    GenServer.call({:global, __MODULE__}, station)
+  end
+
+  @doc "See list of most recently viewed stations"
+  @spec recent() :: [String.t]
+
+  def recent() do
+    result = GenServer.call({:global, __MODULE___}, :recent)
+    IO.puts("Recently visited: #{inspect(result)}")
+  end
+
   # callbacks for GenServer.Behaviour
   def init([]) do
     :inets.start()

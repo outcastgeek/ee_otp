@@ -17,7 +17,7 @@ defmodule Weather do
     opts = [strategy: :one_for_one, name: Weather.WeatherServer ]
     Supervisor.start_link(children, opts)
 
-    WeatherServer.reposrt("KGAI")
+    Weather.WeatherServer.report("KGAI")
   end
 end
 
