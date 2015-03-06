@@ -5,14 +5,14 @@ defmodule WeatherServer do
 
   # convenience method for startup
   def start_link do
-    GenServer.start_link(__MODULE__, [], [{:name, __MODULE__}])
+    GenServer.start_link(__MODULE__, [], [{:name, {:global, __MODULE__}}])
   end
 
   # Wrapper functions to hide internals of GenServer.
   # These should go with internal functions, but I put them
-  # here so they are at the very start of the étude.
+  # here so they are at the very start of the etude.
   @doc "Connect to another node"
-  @spec connec(atom) :: atom
+  @spec connect(atom) :: atom
 
   def connect(other_node) do
     case :net_adm.ping(other_node) do
@@ -36,7 +36,7 @@ defmodule WeatherServer do
   @spec recent() :: [String.t]
 
   def recent() do
-    result = GenServer.call({:global, __MODULE___}, :recent)
+    result = GenServer.call({:global, __MODULE__}, :recent)
     IO.puts("Recently visited: #{inspect(result)}")
   end
 
@@ -44,6 +44,10 @@ defmodule WeatherServer do
   def init([]) do
     :inets.start()
     {:ok, []}
+  end
+
+  def handle_call(:recent, _from, state) do
+    {:reply, state, state}
   end
 
   def handle_call(request, _from, state) do
@@ -111,7 +115,7 @@ defmodule WeatherServer do
 
   defp get_content(element_name, xml) do
     {_, pattern} = Regex.compile(
-                               "<#{element_name}>([^<]+)</#{String.atom_to_binary(element_name)}>")
+                               "<#{element_name}>([^<]+)</#{to_string(element_name)}>")
     result = Regex.run(pattern, xml)
     case result do
       [_all, match] -> {element_name, match}

@@ -1,23 +1,28 @@
 defmodule Weather do
-  use Application
+  use Supervisor
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
-  def start(_type, _args) do
-    import Supervisor.Spec, warn: false
 
-    children = [
-      # Define workers and child supervisors to be supervised
-      # worker(Weather.Worker, [arg1, arg2, arg3])
-    ]
-
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
-    #opts = [strategy: :one_for_one, name: Weather.Supervisor] 
-    opts = [strategy: :one_for_one, name: Weather.WeatherServer ]
-    Supervisor.start_link(children, opts)
-
-    Weather.WeatherServer.report("KGAI")
+  # convenience method for startup
+  def start_link do
+    Supervisor.start_link(__MODULE__, [], [{:name, __MODULE__}])
   end
+
+  # supervisor callback
+  def init([]) do
+    child = [worker(WeatherServer, [], [])]
+    supervise(child, [{:strategy, :one_for_one}, {:max_restarts, 1},
+      {:max_seconds, 5}])
+  end
+
+  def start(_type, _args) do
+    start_link
+  end
+
+  # Examples
+  #WeatherServer.report("KGAI")
+  #WeatherServer.report("KITH")
+
 end
 

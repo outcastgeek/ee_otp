@@ -13,7 +13,8 @@ defmodule Weather.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [applications: [:logger],
-     mod: {Weather, []}]
+     mod: {Weather, []}
+   ]
   end
 
   # Dependencies can be Hex packages:
