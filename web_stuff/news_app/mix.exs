@@ -1,8 +1,8 @@
-defmodule PhxWeb.Mixfile do
+defmodule NewsApp.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :phx_web,
+    [app: :news_app,
      version: "0.0.1",
      elixir: "~> 1.0",
      elixirc_paths: ["lib", "web"],
@@ -14,7 +14,7 @@ defmodule PhxWeb.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [mod: {PhxWeb, []},
+    [mod: {NewsApp, []},
      applications: [:phoenix, :cowboy, :logger]]
   end
 
@@ -22,8 +22,9 @@ defmodule PhxWeb.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 0.7.2"},
-     {:cowboy, "~> 1.0"},
-     {:exrm, "~> 0.15.2"}]
+    [{:phoenix, github: "phoenixframework/phoenix", override: true},
+     {:phoenix_ecto, "~> 0.1"},
+     {:postgrex, ">= 0.0.0"},
+     {:cowboy, "~> 1.0"}]
   end
 end
