@@ -22,7 +22,8 @@ defmodule NewsApp.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, github: "phoenixframework/phoenix", override: true},
+    [{:phoenix, "~>0.10.0"},
+		 #{:phoenix, github: "phoenixframework/phoenix", override: true},
      {:phoenix_ecto, "~> 0.1"},
      {:postgrex, ">= 0.0.0"},
      {:cowboy, "~> 1.0"}]
