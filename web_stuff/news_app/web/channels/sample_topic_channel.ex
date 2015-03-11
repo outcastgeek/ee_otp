@@ -22,7 +22,7 @@ defmodule NewsApp.SampleTopicChannel do
 	end
 
 	def leave(_reason, socket) do
-		Logger.error inspect(reason)
+		Logger.error inspect(_reason)
 		{:ok, socket}
 	end
 end
