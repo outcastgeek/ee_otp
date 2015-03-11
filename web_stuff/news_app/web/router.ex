@@ -16,9 +16,15 @@ defmodule NewsApp.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+		# GAE Application LifeCycle Handlers
 		get "/_ah/start", PageController, :gae_start
 		get "/_ah/health", PageController, :gae_health
   end
+
+	socket "/ws", PageController do
+		channel "sample_topic:*", SampleTopicChannel
+	end
 
   # Other scopes may use custom stacks.
   # scope "/api", NewsApp do

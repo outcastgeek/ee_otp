@@ -48,6 +48,9 @@ WORKDIR /code
 RUN echo "Installing Node Libraries"
 RUN npm install
 
+RUN echo "Prepare Application"
+RUN MIX_ENV=prod mix do deps.get, compile, compile.protocols
+
 EXPOSE 8080
 
 ENTRYPOINT ["./run.sh"]
