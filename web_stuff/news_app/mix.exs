@@ -16,6 +16,8 @@ defmodule NewsApp.Mixfile do
   def application do
     [mod: {NewsApp, []},
      applications: [:phoenix, :cowboy, :logger]]
+     #applications: [:phoenix, :cowboy, :logger, :mariaex, :ecto]]
+     #applications: [:phoenix, :cowboy, :logger, :postgrex, :ecto]]
   end
 
   # Specifies your project dependencies

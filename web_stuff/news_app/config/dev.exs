@@ -29,7 +29,12 @@ config :logger, :console, format: "[$level] $message\n"
 
 # Configure your database
 config :news_app, NewsApp.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  adapter: Ecto.Adapters.MySQL,
+  username: "root",
+  password: "MySQL2014!!",
   database: "news_app_dev"
+#config :news_app, NewsApp.Repo,
+#  adapter: Ecto.Adapters.Postgres,
+#  username: "postgres",
+#  password: "postgres",
+#  database: "news_app_dev"
