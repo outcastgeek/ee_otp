@@ -7,11 +7,11 @@ defmodule NewsApp.PageController do
     render conn, "index.html"
   end
 
-	def gae_start(conn, _params) do
-		text conn, "Application Started"
+  def gae_start(conn, _params) do
+	text conn, "Application Started"
   end
 
-	def gae_health(conn, _params) do
-		text conn, "Healthy Application"
-	end
+  def gae_health(conn, _params) do
+	text conn, "Healthy Application"
+  end
 end
