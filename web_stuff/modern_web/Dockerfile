@@ -1,0 +1,56 @@
+# Dockerfile for running Elixir Code
+
+FROM ubuntu:15.04
+
+MAINTAINER outcastgeek <outcastgeek+docker@gmail.com>
+
+WORKDIR /tmp
+
+RUN echo "Running apt-get update"
+RUN apt-get update
+RUN echo "- done."
+
+RUN echo "Installing Essential Tools"
+RUN apt-get install -y runit locales curl wget git build-essential nodejs
+RUN echo "- done."
+
+RUN echo "Updating source.list"
+RUN echo "deb http://packages.erlang-solutions.com/ubuntu vivid contrib" >> /etc/apt/sources.list
+RUN wget http://packages.erlang-solutions.com/debian/erlang_solutions.asc
+RUN apt-key add erlang_solutions.asc
+RUN apt-get update
+RUN echo "- done."
+
+# Set the locale
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+RUN echo "Running apt-get update"
+RUN apt-get update
+RUN echo "- done."
+
+RUN echo "Installing Erlang and Elixir"
+RUN apt-get -y install erlang erlang-ssl erlang-inets
+ADD ./cmd.sh /tmp/cmd.sh
+RUN /tmp/cmd.sh install_elixir
+RUN echo "- done."
+
+COPY . /code
+
+WORKDIR /code
+
+RUN echo "Installing Node Libraries"
+RUN npm install
+
+RUN echo "Prepare Application"
+RUN MIX_ENV=prod mix do deps.get, compile, compile.protocols, phoenix.routes, phoenix.digest
+
+RUN echo "Cleanup"
+RUN apt-get clean
+RUN rm -r /tmp/*
+RUN echo "- done."
+
+
+CMD ["/bin/bash"]
