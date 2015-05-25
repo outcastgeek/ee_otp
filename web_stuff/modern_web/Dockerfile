@@ -11,7 +11,7 @@ RUN apt-get update
 RUN echo "- done."
 
 RUN echo "Installing Essential Tools"
-RUN apt-get install -y runit locales curl wget git build-essential nodejs
+RUN apt-get install -y runit locales curl wget git build-essential ca-certificates
 RUN echo "- done."
 
 RUN echo "Updating source.list"
@@ -36,6 +36,11 @@ RUN apt-get -y install erlang erlang-ssl erlang-inets
 ADD ./cmd.sh /tmp/cmd.sh
 RUN /tmp/cmd.sh install_elixir
 RUN echo "- done."
+
+RUN echo "Installing Nodejs and NPM"
+RUN mkdir /nodejs && curl http://nodejs.org/dist/v0.12.4/node-v0.12.4-linux-x64.tar.gz | tar xvzf - -C /nodejs --strip-components=1
+RUN echo "Add Node.js installation to PATH, and set"
+ENV PATH $PATH:/nodejs/bin
 
 COPY . /code
 
