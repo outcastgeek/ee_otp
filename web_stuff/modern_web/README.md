@@ -11,5 +11,6 @@ Now you can visit `localhost:4000` from your browser.
 **Links**:
 
 > https://speakerdeck.com/vanstee/elixir-and-ecto
+> https://speakerdeck.com/search?utf8=%E2%9C%93&q=elixir
 
 
