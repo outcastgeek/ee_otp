@@ -7,15 +7,15 @@ app:
   environment:
     MIX_ENV: prod
     PORT: 8080
-  links:
-    - db
-db:
-  restart: always
-  command: true
-  image: postgres:latest
-  ports:
-    - "5432"
-  environment:
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: PgSQL@2015!!
+#  links:
+#    - db
+#db:
+#  restart: always
+#  command: true
+#  image: postgres:latest
+#  ports:
+#    - "5432"
+#  environment:
+#    POSTGRES_USER: postgres
+#    POSTGRES_PASSWORD: PgSQL@2015!!
   

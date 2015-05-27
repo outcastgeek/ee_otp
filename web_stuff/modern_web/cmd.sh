@@ -36,7 +36,8 @@ case $1 in
     mix phoenix.new $2
     ;;
   phx_dev)
-    PORT=$2 iex -S mix phoenix.server
+     #PORT=$2 iex -S mix do deps.get, compile, compile.protocols, phoenix.routes, phoenix.digest, phoenix.server
+     PORT=$2 iex -S mix phoenix.server
     ;;
   phx_prod)
     MIX_ENV=prod PORT=$2 elixir --detached -S mix phoenix.server

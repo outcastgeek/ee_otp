@@ -32,9 +32,13 @@ RUN apt-get update
 RUN echo "- done."
 
 RUN echo "Installing Erlang and Elixir"
-RUN apt-get -y install erlang erlang-ssl erlang-inets
-ADD ./cmd.sh /tmp/cmd.sh
-RUN /tmp/cmd.sh install_elixir
+#RUN apt-get -y install erlang erlang-ssl erlang-inets
+#ADD ./cmd.sh /tmp/cmd.sh
+#RUN /tmp/cmd.sh install_elixir
+RUN apt-get -y install erlang erlang-ssl erlang-inets elixir
+RUN echo "Install local Elixir hex and rebar"
+RUN /usr/local/bin/mix local.hex --force && \
+    /usr/local/bin/mix local.rebar --force
 RUN echo "- done."
 
 RUN echo "Installing Nodejs and NPM"
@@ -50,7 +54,8 @@ RUN echo "Installing Node Libraries"
 RUN npm install
 
 RUN echo "Prepare Application"
-RUN MIX_ENV=prod mix do deps.get, compile, compile.protocols, phoenix.routes, phoenix.digest
+#RUN MIX_ENV=prod mix do deps.get, compile, compile.protocols, phoenix.routes, phoenix.digest
+RUN MIX_ENV=dev mix do deps.get, compile, compile.protocols, phoenix.routes, phoenix.digest
 
 RUN echo "Cleanup"
 RUN apt-get clean
