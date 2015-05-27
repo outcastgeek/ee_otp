@@ -35,7 +35,7 @@ RUN echo "Installing Erlang and Elixir"
 #RUN apt-get -y install erlang erlang-ssl erlang-inets
 #ADD ./cmd.sh /tmp/cmd.sh
 #RUN /tmp/cmd.sh install_elixir
-RUN apt-get -y install erlang erlang-ssl erlang-inets elixir
+RUN apt-get -y install runit erlang erlang-ssl erlang-inets elixir
 RUN echo "Install local Elixir hex and rebar"
 RUN /usr/local/bin/mix local.hex --force && \
     /usr/local/bin/mix local.rebar --force
@@ -62,5 +62,9 @@ RUN apt-get clean
 RUN rm -r /tmp/*
 RUN echo "- done."
 
+RUN echo "Add Services"
+ADD app.service /etc/service/app/run
+RUN echo "- All Good!!!!"
 
-CMD ["/bin/bash"]
+#CMD ["/bin/bash"]
+CMD ["/usr/bin/runsvdir", "/etc/service"]

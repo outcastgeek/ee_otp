@@ -1,5 +1,7 @@
 #!/bin/bash
 
+BASEDIR=$(dirname $0)
+
 case $1 in
 
   install_elixir)
@@ -40,7 +42,13 @@ case $1 in
      PORT=$2 iex -S mix phoenix.server
     ;;
   phx_prod)
-    MIX_ENV=prod PORT=$2 elixir --detached -S mix phoenix.server
+    #MIX_ENV=prod PORT=$2 elixir --detached -S mix phoenix.server
+    echo "Starting Application"
+    cd $BASEDIR && elixir -S mix phoenix.server
+    ;;
+  phx_db_migrate)
+    echo "Running DB Migrations"
+    cd $BASEDIR && mix ecto.migrate
     ;;
   esac
 exit 0
