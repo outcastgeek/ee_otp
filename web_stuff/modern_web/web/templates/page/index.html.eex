@@ -1,6 +1,39 @@
 <div class="jumbotron">
-  <h2>Welcome to Phoenix!</h2>
+  <h2>Welcome to the Modern Web!</h2>
   <p class="lead">Most frameworks make you choose between speed and a productive environment. <a href="http://phoenixframework.org">Phoenix</a> and <a href="http://elixir-lang.org">Elixir</a> give you both.</p>
+</div>
+
+<div class="row">
+  <h2>Listing posts</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Score</th>
+      <th>Version</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for post <- @posts do %>
+    <tr>
+      <td><%= post.name %></td>
+      <td><%= post.score %></td>
+      <td><%= post.version %></td>
+
+      <td class="text-right">
+        <%#= link "Show", to: page_path(@conn, :show, post), class: "btn btn-default btn-xs" %>
+        <%#= link "Edit", to: page_path(@conn, :edit, post), class: "btn btn-default btn-xs" %>
+        <%#= link "Delete", to: page_path(@conn, :delete, post), method: :delete, class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%#= link "New post", to: page_path(@conn, :new) %>
 </div>
 
 <div class="row marketing">

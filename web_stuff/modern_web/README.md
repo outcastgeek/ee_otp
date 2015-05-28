@@ -12,5 +12,8 @@ Now you can visit `localhost:4000` from your browser.
 
 > https://speakerdeck.com/vanstee/elixir-and-ecto
 > https://speakerdeck.com/search?utf8=%E2%9C%93&q=elixir
+> http://www.coffeesforclosures.com/many-to-many-joins-with-ecto-and-elixir/
+> http://www.littlelines.com/blog/2014/07/08/elixir-vs-ruby-showdown-phoenix-vs-rails/
+> http://learnelixir.com/
 
 

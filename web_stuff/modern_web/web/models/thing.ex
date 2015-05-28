@@ -6,6 +6,8 @@ defmodule ModernWeb.Thing do
     field :score, :integer
     field :version, :integer
 		field :user_id, :integer
+
+		#has_many :data, Datum
   end
 
   @required_fields ~w(name score version)
