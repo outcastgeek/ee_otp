@@ -49,6 +49,12 @@ case $1 in
   phx_db_migrate)
     echo "Running DB Migrations"
     cd $BASEDIR && mix ecto.migrate
+    echo "Done with the DB Migrations"
+    ;;
+  phx_db_seed)
+    echo "Seeding DB"
+    cd $BASEDIR && mix run seeds.exs
+    echo "Done Seeding the DB"
     ;;
   esac
 exit 0

@@ -2,5 +2,7 @@
 
 /code/cmd.sh phx_db_migrate
 
+/code/cmd.sh phx_db_seed
+
 exec /code/cmd.sh phx_prod
 
