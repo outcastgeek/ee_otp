@@ -1,8 +1,9 @@
 defmodule ModernWeb.PageController do
   use ModernWeb.Web, :controller
+	alias ModernWeb.BlogPost
 	alias ModernWeb.Web.BlogService
 
-	plug :scrub_params, "page" when action in [:create, :update]
+	plug :scrub_params, "blog_post" when action in [:create, :update]
   plug :action
 
   def index(conn, _params) do
@@ -18,26 +19,30 @@ defmodule ModernWeb.PageController do
     posts = Repo.all(Post)
     render(conn, "index.html", posts: posts)
   end
+"""
+
 
   def new(conn, _params) do
-    changeset = Post.changeset(%Post{})
+    changeset = BlogPost.changeset(%BlogPost{})
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"post" => post_params}) do
-    changeset = Post.changeset(%Post{}, post_params)
+  def create(conn, %{"blog_post" => post_params}) do
+    changeset = BlogPost.changeset(%BlogPost{}, post_params)
 
     if changeset.valid? do
-      Repo.insert(changeset)
+			blog_post = changeset.changes
+      BlogService.create(blog_post)
 
       conn
       |> put_flash(:info, "Post created successfully.")
-      |> redirect(to: post_path(conn, :index))
+      |> redirect(to: page_path(conn, :index))
     else
       render(conn, "new.html", changeset: changeset)
     end
   end
 
+"""
   def show(conn, %{"id" => id}) do
     post = Repo.get(Post, id)
     render(conn, "show.html", post: post)

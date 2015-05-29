@@ -33,7 +33,7 @@
   </tbody>
 </table>
 
-<%#= link "New post", to: page_path(@conn, :new) %>
+<%= link "New post", to: page_path(@conn, :new) %>
 </div>
 
 <div class="row marketing">

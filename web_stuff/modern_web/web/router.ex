@@ -16,6 +16,8 @@ defmodule ModernWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+		get "/new", PageController, :new
+		post "/create", PageController, :create
 		#resources "/", PageController
 
     resources "/posts", PostController

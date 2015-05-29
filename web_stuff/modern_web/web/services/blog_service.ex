@@ -1,3 +1,4 @@
+
 defmodule ModernWeb.Web.BlogService do
   @moduledoc """
   Blog Service to Provide Blogging Functionality on top of ThingDB
@@ -16,6 +17,16 @@ defmodule ModernWeb.Web.BlogService do
 #				 on: thing.id == datum.thing_id,
 				 where: thing.name == "post",
 				 select: thing)
+		)
+	end
+
+	def create(blog_post) do
+		Repo.transaction(
+			fn ->
+				thing = Repo.insert(%Thing{name: "post", version: 1})
+				Repo.insert(%Datum{thing_id: thing.id, key: "title", value: blog_post.title})
+				Repo.insert(%Datum{thing_id: thing.id, key: "content", value: blog_post.content})
+			end	
 		)
 	end
 end

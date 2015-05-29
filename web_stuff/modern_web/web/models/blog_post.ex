@@ -1,16 +1,17 @@
-defmodule ModernWeb.Thing do
-  use ModernWeb.Web, :model
+defmodule ModernWeb.BlogPost do
+	@moduledoc """
+  Blog Post Struct to Bind From and to the Controller
+  (Client <=> Controller and Controller <=> BlogService)
+  """
+	use ModernWeb.Web, :model
 
-  schema "things" do
-    field :name, :string
-    field :score, :integer
-    field :version, :integer
-		field :user_id, :integer
+	schema "things" do
+    field :title, :string
+    field :content, :string
 
-		has_many :data, Datum
   end
 
-  @required_fields ~w(name score version)
+  @required_fields ~w(title content)
   @optional_fields ~w()
 
   @doc """
