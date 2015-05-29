@@ -1,0 +1,32 @@
+<h2>Show user</h2>
+
+<ul>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </li>
+
+  <li>
+    <strong>Username:</strong>
+    <%= @user.username %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @user.name %>
+  </li>
+
+  <li>
+    <strong>Location:</strong>
+    <%= @user.location %>
+  </li>
+
+  <li>
+    <strong>AboutMe:</strong>
+    <%= @user.about_me %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: user_path(@conn, :index) %>
