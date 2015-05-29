@@ -13,11 +13,12 @@ defmodule ModernWeb.Web.BlogService do
 	def list_posts(page) do
 		Repo.all(
 			from(thing in Thing,
-#				 join: datum in Datum,
-#				 on: thing.id == datum.thing_id,
+				 join: datum in Datum,
+				 on: thing.id == datum.thing_id,
 				 where: thing.name == "post",
-				 select: thing)
-		)
+				 select: thing,
+			   preload: [data: datum])
+			)
 	end
 
 	def create(blog_post) do

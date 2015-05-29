@@ -12,6 +12,8 @@
       <th>Name</th>
       <th>Score</th>
       <th>Version</th>
+      <th>Title</th>
+      <th>Content</th>
 
       <th></th>
     </tr>
@@ -22,6 +24,9 @@
       <td><%= post.name %></td>
       <td><%= post.score %></td>
       <td><%= post.version %></td>
+      <%= for datum <- post.data do %>
+	  <td><%= datum.value %></td>
+      <% end %>
 
       <td class="text-right">
         <%#= link "Show", to: page_path(@conn, :show, post), class: "btn btn-default btn-xs" %>
