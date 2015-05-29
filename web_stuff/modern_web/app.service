@@ -1,4 +1,6 @@
 #!/bin/sh
- 
+
+/code/cmd.sh phx_db_migrate
+
 exec /code/cmd.sh phx_prod
 
