@@ -14,8 +14,6 @@ defmodule ModernWeb.User do
     field :avatar_hash, :string
 
 		field :role_id, :integer
-
-		belongs_to :roles, Role
   end
 
   @required_fields ~w(email username password_hash confirmed name location about_me member_since last_seen avatar_hash)
