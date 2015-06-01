@@ -13,9 +13,8 @@
       <th>Score</th>
       <th>Version</th>
       <th>Title</th>
+      <th>Slug</th>   
       <th>Content</th>
-      <th>Slug</th>  
-
       <th></th>
     </tr>
   </thead>
