@@ -3,6 +3,8 @@ defmodule ModernWeb.PageController do
 	alias ModernWeb.BlogPost
 	alias ModernWeb.Web.BlogService
 
+	require Logger
+
 	plug :scrub_params, "blog_post" when action in [:create, :update]
   plug :action
 

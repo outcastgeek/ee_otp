@@ -24,23 +24,7 @@ defmodule ModernWeb.Web.BlogService do
 			   preload: [data: datum])
 		)
 		|> Stream.map(fn thing ->
-			{:ok, post_data} = Agent.start_link(fn -> HashDict.new end)
-	    Agent.update(post_data, &HashDict.put(&1, :name, thing.name))
-			Agent.update(post_data, &HashDict.put(&1, :score, thing.score))
-			Agent.update(post_data, &HashDict.put(&1, :version, thing.version))
-			Enum.each(thing.data, fn datum ->
-				cond do
-					datum.key == "title" ->
-						Agent.update(post_data, &HashDict.put(&1, :title, datum.value))
-					datum.key == "slug" ->
-						Agent.update(post_data, &HashDict.put(&1, :slug, datum.value))
-					datum.key == "content" ->
-						Agent.update(post_data, &HashDict.put(&1, :content, datum.value))
-				end
-			end)
-			post = Map.merge(%BlogPost{}, Agent.get(post_data, &(&1)))
-			Agent.stop(post_data)
-			post
+			get_post_data(thing)
 		end)
 	end
 
@@ -62,11 +46,15 @@ defmodule ModernWeb.Web.BlogService do
 		dtm = Repo.one(datum_query)
 	  thing_query = from thing in Thing,
 										   join: datum in Datum,
-						           on: thing.id == ^dtm.thing_id,
-						           where: thing.name == "post",
+						           on: thing.id == datum.thing_id,
+						           where: thing.name == "post" and thing.id == ^dtm.thing_id,
 						           preload: [data: datum],
 						           select: thing
-		thing = Repo.one(thing_query)
+		post_data = get_post_data(Repo.one(thing_query))
+		post_data									 
+	end
+
+	defp get_post_data(thing) do
 		{:ok, post_data} = Agent.start_link(fn -> HashDict.new end)
 	  Agent.update(post_data, &HashDict.put(&1, :name, thing.name))
 		Agent.update(post_data, &HashDict.put(&1, :score, thing.score))
@@ -81,8 +69,17 @@ defmodule ModernWeb.Web.BlogService do
 					Agent.update(post_data, &HashDict.put(&1, :content, datum.value))
 			end
 		end)
-		post = Map.merge(%BlogPost{}, Agent.get(post_data, &(&1)))
+		post = Map.merge(%{}, Agent.get(post_data, &(&1)))
 		Agent.stop(post_data)
-		post
+		Logger.debug post[:title]
+		blog_post = %BlogPost{
+			name: post[:name],
+			score: post[:score],
+			version: post[:version],
+			title: post[:title],
+			slug: post[:slug],
+			content: post[:content]
+		}
+		blog_post
 	end
 end

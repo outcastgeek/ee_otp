@@ -5,7 +5,7 @@ defmodule ModernWeb.BlogPost do
   """
 	use ModernWeb.Web, :model
 
-	schema "things" do
+	schema "blog_posts" do
 		field :name, :string
 		field :score, :integer
 		field :version, :integer
