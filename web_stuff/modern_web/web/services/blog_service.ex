@@ -38,7 +38,7 @@ defmodule ModernWeb.Web.BlogService do
 						Agent.update(post_data, &HashDict.put(&1, :content, datum.value))
 				end
 			end)
-			post = Agent.get(post_data, &(&1))
+			post = Map.merge(%BlogPost{}, Agent.get(post_data, &(&1)))
 			Agent.stop(post_data)
 			post
 		end)
@@ -56,6 +56,20 @@ defmodule ModernWeb.Web.BlogService do
 	end
 
 	def detail(slug) do
-		# Bring up the details
+		datum =
+			Repo.one(
+				from(datum in Datum,
+					 where: datum.key == "slug" and datum.value == ^slug,
+					 select: datum
+			)
+		)
+    Repo.one(
+				from(thing in Thing,
+						 join: dtm in Datum,
+						 on: thing.id == dtm.thing_id,
+						 where: thing.name == "post" and dtm.thing_id == ^datum.thing_id,
+						 preload: [data: dtm],
+						 select: thing)
+			)
 	end
 end
