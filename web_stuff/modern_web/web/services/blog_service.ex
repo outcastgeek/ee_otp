@@ -56,20 +56,33 @@ defmodule ModernWeb.Web.BlogService do
 	end
 
 	def detail(slug) do
-		datum =
-			Repo.one(
-				from(datum in Datum,
-					 where: datum.key == "slug" and datum.value == ^slug,
-					 select: datum
-			)
-		)
-    Repo.one(
-				from(thing in Thing,
-						 join: dtm in Datum,
-						 on: thing.id == dtm.thing_id,
-						 where: thing.name == "post" and dtm.thing_id == ^datum.thing_id,
-						 preload: [data: dtm],
-						 select: thing)
-			)
+		datum_query = from datum in Datum,
+		                   where: datum.key == "slug" and datum.value == ^slug,
+										   select: datum
+		dtm = Repo.one(datum_query)
+	  thing_query = from thing in Thing,
+										   join: datum in Datum,
+						           on: thing.id == ^dtm.thing_id,
+						           where: thing.name == "post",
+						           preload: [data: datum],
+						           select: thing
+		thing = Repo.one(thing_query)
+		{:ok, post_data} = Agent.start_link(fn -> HashDict.new end)
+	  Agent.update(post_data, &HashDict.put(&1, :name, thing.name))
+		Agent.update(post_data, &HashDict.put(&1, :score, thing.score))
+		Agent.update(post_data, &HashDict.put(&1, :version, thing.version))
+		Enum.each(thing.data, fn datum ->
+			cond do
+				datum.key == "title" ->
+					Agent.update(post_data, &HashDict.put(&1, :title, datum.value))
+				datum.key == "slug" ->
+					Agent.update(post_data, &HashDict.put(&1, :slug, datum.value))
+				datum.key == "content" ->
+					Agent.update(post_data, &HashDict.put(&1, :content, datum.value))
+			end
+		end)
+		post = Map.merge(%BlogPost{}, Agent.get(post_data, &(&1)))
+		Agent.stop(post_data)
+		post
 	end
 end

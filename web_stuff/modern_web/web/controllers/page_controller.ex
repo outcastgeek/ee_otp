@@ -42,12 +42,12 @@ defmodule ModernWeb.PageController do
     end
   end
 
-"""
-  def show(conn, %{"id" => id}) do
-    post = Repo.get(Post, id)
+  def show(conn, %{"slug" => slug}) do
+    post = BlogService.detail(slug)
     render(conn, "show.html", post: post)
   end
 
+"""
   def edit(conn, %{"id" => id}) do
     post = Repo.get(Post, id)
     changeset = Post.changeset(post)

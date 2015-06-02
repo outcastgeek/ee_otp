@@ -1,0 +1,32 @@
+<h2><%= @post[:title] %></h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @post[:name] %>
+  </li>
+
+  <li>
+    <strong>Version:</strong>
+    <%= @post[:version] %>
+  </li>
+
+  <li>
+    <strong>Score:</strong>
+    <%= @post[:Score] %>
+  </li>
+  
+  <li>
+    <strong>Slug:</strong>
+    <%= @post[:slug] %>
+  </li>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @post[:content] %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: page_path(@conn, :index) %>
