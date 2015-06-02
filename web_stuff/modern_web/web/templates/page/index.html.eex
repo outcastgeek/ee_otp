@@ -21,13 +21,12 @@
   <tbody>
 <%= for post <- @posts do %>
     <tr>
-      <td><%= post.name %></td>
-      <td><%= post.score %></td>
-      <td><%= post.version %></td>
-      <%= for datum <- post.data do %>
-	  <td><%= datum.value %></td>
-      <% end %>
-
+      <td><%= post[:name] %></td>
+      <td><%= post[:score] %></td>
+      <td><%= post[:version] %></td>
+      <td><%= post[:title] %></td>
+      <td><%= post[:slug] %></td>
+      <td><%= post[:content] %></td>
       <td class="text-right">
         <%#= link "Show", to: page_path(@conn, :show, post), class: "btn btn-default btn-xs" %>
         <%#= link "Edit", to: page_path(@conn, :edit, post), class: "btn btn-default btn-xs" %>

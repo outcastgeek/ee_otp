@@ -6,7 +6,11 @@ defmodule ModernWeb.BlogPost do
 	use ModernWeb.Web, :model
 
 	schema "things" do
+		field :name, :string
+		field :score, :integer
+		field :version, :integer
     field :title, :string
+		field :slug, :string
     field :content, :string
 
   end
