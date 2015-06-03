@@ -14,16 +14,6 @@ defmodule ModernWeb.PageController do
 		render(conn, "index.html", posts: posts)
   end
 
-"""
-	alias ModernWeb.Post
-
-  def index_post(conn, _params) do
-    posts = Repo.all(Post)
-    render(conn, "index.html", posts: posts)
-  end
-"""
-
-
   def new(conn, _params) do
     changeset = BlogPost.changeset(%BlogPost{})
     render(conn, "new.html", changeset: changeset)
@@ -49,19 +39,18 @@ defmodule ModernWeb.PageController do
     render(conn, "show.html", post: post)
   end
 
-"""
-  def edit(conn, %{"id" => id}) do
-    post = Repo.get(Post, id)
-    changeset = Post.changeset(post)
+  def edit(conn, %{"slug" => slug}) do
+    post = BlogService.detail(slug)
+    changeset = BlogPost.changeset(post)
     render(conn, "edit.html", post: post, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "post" => post_params}) do
-    post = Repo.get(Post, id)
-    changeset = Post.changeset(post, post_params)
+  def update(conn, %{"slug" => slug, "blog_post" => post_params}) do
+    post = BlogService.detail(slug)
+    changeset = BlogPost.changeset(post, post_params)
 
     if changeset.valid? do
-      Repo.update(changeset)
+      BlogService.update(slug, changeset)
 
       conn
       |> put_flash(:info, "Post updated successfully.")
@@ -71,6 +60,7 @@ defmodule ModernWeb.PageController do
     end
   end
 
+"""
   def delete(conn, %{"id" => id}) do
     post = Repo.get(Post, id)
     Repo.delete(post)

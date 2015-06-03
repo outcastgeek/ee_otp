@@ -40,6 +40,36 @@ defmodule ModernWeb.Web.BlogService do
 	end
 
 	def detail(slug) do
+		slug
+		|> get_thing_from_slug
+		|> get_post_data
+	end
+
+  def update(slug, updated_blog_post) do
+		slug
+		|> get_thing_from_slug
+		|> get_post_data
+		|> update_thing(updated_blog_post)
+	end
+
+	defp update_thing(thing, updated_blog_post) do
+			Repo.transaction(
+				fn ->
+					Repo.update(%{thing | version: thing.version + 1})
+				  Enum.each(thing.data, fn datum ->
+						cond do
+							datum.key == "title" ->
+								Repo.update(%{datum | value: updated_blog_post.title})
+					    datum.key == "slug" ->
+						    Repo.update(%{datum | value: Slugger.slugify_downcase(updated_blog_post.title)})
+							datum.key == "content" ->
+								Repo.update(%{datum | value: updated_blog_post.content})
+						end
+					end)
+				end)
+	end
+
+	defp get_thing_from_slug(slug) do
 		datum_query = from datum in Datum,
 		                   where: datum.key == "slug" and datum.value == ^slug,
 										   select: datum
@@ -50,10 +80,9 @@ defmodule ModernWeb.Web.BlogService do
 						           where: thing.name == "post" and thing.id == ^dtm.thing_id,
 						           preload: [data: datum],
 						           select: thing
-		post_data = get_post_data(Repo.one(thing_query))
-		post_data									 
+		Repo.one(thing_query)
 	end
-
+	
 	defp get_post_data(thing) do
 		{:ok, post_data} = Agent.start_link(fn -> HashDict.new end)
 	  Agent.update(post_data, &HashDict.put(&1, :name, thing.name))
