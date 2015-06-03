@@ -50,7 +50,7 @@ defmodule ModernWeb.PageController do
     changeset = BlogPost.changeset(post, post_params)
 
     if changeset.valid? do
-      BlogService.update(slug, changeset)
+      BlogService.update(slug, changeset.changes)
 
       conn
       |> put_flash(:info, "Post updated successfully.")

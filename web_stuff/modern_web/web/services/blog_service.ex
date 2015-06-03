@@ -48,7 +48,6 @@ defmodule ModernWeb.Web.BlogService do
   def update(slug, updated_blog_post) do
 		slug
 		|> get_thing_from_slug
-		|> get_post_data
 		|> update_thing(updated_blog_post)
 	end
 
