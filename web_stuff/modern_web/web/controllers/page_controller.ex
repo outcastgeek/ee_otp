@@ -54,7 +54,7 @@ defmodule ModernWeb.PageController do
 
       conn
       |> put_flash(:info, "Post updated successfully.")
-      |> redirect(to: post_path(conn, :index))
+      |> redirect(to: page_path(conn, :index))
     else
       render(conn, "edit.html", post: post, changeset: changeset)
     end

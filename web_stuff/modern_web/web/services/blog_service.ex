@@ -59,12 +59,12 @@ defmodule ModernWeb.Web.BlogService do
 					Repo.update(%{thing | version: thing.version + 1})
 				  Enum.each(thing.data, fn datum ->
 						cond do
-							datum.key == "title" and title_update != nil ->
-								Repo.update(%{datum | value: title_update})
-					    datum.key == "slug" and title_update != nil ->
-						    Repo.update(%{datum | value: Slugger.slugify_downcase(title_update)})
-							datum.key == "content" and content_update != nil ->
-								Repo.update(%{datum | value: content_update})
+							datum.key == "title" ->
+								if !is_nil(title_update), do:  Repo.update(%{datum | value: title_update})
+					    datum.key == "slug" ->
+						    if !is_nil(title_update), do: Repo.update(%{datum | value: Slugger.slugify_downcase(title_update)})
+							datum.key == "content" ->
+								if !is_nil(content_update), do: Repo.update(%{datum | value: content_update})
 						end
 					end)
 				end)
