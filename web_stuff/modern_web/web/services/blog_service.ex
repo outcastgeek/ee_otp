@@ -51,18 +51,20 @@ defmodule ModernWeb.Web.BlogService do
 		|> update_thing(updated_blog_post)
 	end
 
-	defp update_thing(thing, updated_blog_post) do
+	defp update_thing(thing, blog_post_update) do
+		  title_update = Dict.get(blog_post_update, :title)
+		  content_update = Dict.get(blog_post_update, :content)
 			Repo.transaction(
 				fn ->
 					Repo.update(%{thing | version: thing.version + 1})
 				  Enum.each(thing.data, fn datum ->
 						cond do
-							datum.key == "title" ->
-								Repo.update(%{datum | value: updated_blog_post.title})
-					    datum.key == "slug" ->
-						    Repo.update(%{datum | value: Slugger.slugify_downcase(updated_blog_post.title)})
-							datum.key == "content" ->
-								Repo.update(%{datum | value: updated_blog_post.content})
+							datum.key == "title" and title_update != nil ->
+								Repo.update(%{datum | value: title_update})
+					    datum.key == "slug" and title_update != nil ->
+						    Repo.update(%{datum | value: Slugger.slugify_downcase(title_update)})
+							datum.key == "content" and content_update != nil ->
+								Repo.update(%{datum | value: content_update})
 						end
 					end)
 				end)
