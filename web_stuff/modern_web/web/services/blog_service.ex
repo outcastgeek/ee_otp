@@ -51,6 +51,22 @@ defmodule ModernWeb.Web.BlogService do
 		|> update_thing(updated_blog_post)
 	end
 
+	def delete(slug) do
+		slug
+		|> get_thing_from_slug
+		|> delete_thing
+	end
+
+	defp delete_thing(thing) do
+		Repo.transaction(
+			fn ->
+				Enum.each(thing.data, fn datum ->
+					Repo.delete(datum)
+				end)
+				Repo.delete(thing)
+			end)
+	end
+
 	defp update_thing(thing, blog_post_update) do
 		  title_update = Dict.get(blog_post_update, :title)
 		  content_update = Dict.get(blog_post_update, :content)

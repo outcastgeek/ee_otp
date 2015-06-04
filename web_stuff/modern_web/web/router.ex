@@ -24,6 +24,7 @@ defmodule ModernWeb.Router do
 		get "/show/:slug", PageController, :show
 		get "/edit/:slug", PageController, :edit
 		post "/update/:slug", PageController, :update
+		delete "/delete/:slug", PageController, :delete
 		#resources "/", PageController
 
     resources "/posts", PostController

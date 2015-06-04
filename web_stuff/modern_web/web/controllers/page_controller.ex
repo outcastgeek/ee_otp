@@ -60,14 +60,11 @@ defmodule ModernWeb.PageController do
     end
   end
 
-"""
-  def delete(conn, %{"id" => id}) do
-    post = Repo.get(Post, id)
-    Repo.delete(post)
+  def delete(conn, %{"slug" => slug}) do
+    BlogService.delete(slug)
 
     conn
     |> put_flash(:info, "Post deleted successfully.")
-    |> redirect(to: post_path(conn, :index))
+    |> redirect(to: page_path(conn, :index))
   end
-"""
 end
