@@ -10,6 +10,8 @@ defmodule ModernWeb.Web.BlogService do
   alias ModernWeb.Repo
   import Ecto.Query, only: [from: 2]
 
+	import ParallelService, only: [pmap: 2]
+
 	alias Slugger
 
 	require Logger
@@ -29,14 +31,11 @@ defmodule ModernWeb.Web.BlogService do
 	end
 
 	def create(blog_post) do
-		Repo.transaction(
-			fn ->
-				thing = Repo.insert(%Thing{name: "post", version: 1})
-				Repo.insert(%Datum{thing_id: thing.id, key: "title", value: blog_post.title})
-				Repo.insert(%Datum{thing_id: thing.id, key: "slug", value: Slugger.slugify_downcase(blog_post.title)})
-				Repo.insert(%Datum{thing_id: thing.id, key: "content", value: blog_post.content})
-			end	
-		)
+		thing = Repo.insert(%Thing{name: "post", version: 1})
+		[%Datum{thing_id: thing.id, key: "title", value: blog_post.title},
+		 %Datum{thing_id: thing.id, key: "slug", value: Slugger.slugify_downcase(blog_post.title)},
+		 %Datum{thing_id: thing.id, key: "content", value: blog_post.content}]
+		|> pmap(fn data -> Repo.insert(data) end)
 	end
 
 	def detail(slug) do
@@ -60,9 +59,8 @@ defmodule ModernWeb.Web.BlogService do
 	defp delete_thing(thing) do
 		Repo.transaction(
 			fn ->
-				Enum.each(thing.data, fn datum ->
-					Repo.delete(datum)
-				end)
+				thing.data
+				|> pmap(fn datum -> Repo.delete(datum) end)
 				Repo.delete(thing)
 			end)
 	end
@@ -73,14 +71,15 @@ defmodule ModernWeb.Web.BlogService do
 			Repo.transaction(
 				fn ->
 					Repo.update(%{thing | version: thing.version + 1})
-				  Enum.each(thing.data, fn datum ->
+				  thing.data
+					|> pmap(fn datum ->
 						cond do
 							datum.key == "title" ->
-								if !is_nil(title_update), do:  Repo.update(%{datum | value: title_update})
+								unless is_nil(title_update), do:  Repo.update(%{datum | value: title_update})
 					    datum.key == "slug" ->
-						    if !is_nil(title_update), do: Repo.update(%{datum | value: Slugger.slugify_downcase(title_update)})
+						    unless is_nil(title_update), do: Repo.update(%{datum | value: Slugger.slugify_downcase(title_update)})
 							datum.key == "content" ->
-								if !is_nil(content_update), do: Repo.update(%{datum | value: content_update})
+								unless is_nil(content_update), do: Repo.update(%{datum | value: content_update})
 						end
 					end)
 				end)
@@ -105,7 +104,8 @@ defmodule ModernWeb.Web.BlogService do
 	  Agent.update(post_data, &HashDict.put(&1, :name, thing.name))
 		Agent.update(post_data, &HashDict.put(&1, :score, thing.score))
 		Agent.update(post_data, &HashDict.put(&1, :version, thing.version))
-		Enum.each(thing.data, fn datum ->
+		thing.data
+		|> pmap(fn datum ->
 			cond do
 				datum.key == "title" ->
 					Agent.update(post_data, &HashDict.put(&1, :title, datum.value))
