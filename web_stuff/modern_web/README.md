@@ -15,5 +15,5 @@ Now you can visit `localhost:4000` from your browser.
 > http://www.coffeesforclosures.com/many-to-many-joins-with-ecto-and-elixir/
 > http://www.littlelines.com/blog/2014/07/08/elixir-vs-ruby-showdown-phoenix-vs-rails/
 > http://learnelixir.com/
-
+> http://www.elixirdose.com/post/Phoenix%20Part%204
 

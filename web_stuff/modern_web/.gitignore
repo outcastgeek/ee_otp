@@ -3,6 +3,12 @@
 /deps
 /*.ez
 
+# Release Artifacts
+/rel
+/priv/static/**/*.gz
+/priv/static/**/*.json
+/priv/static/**/*.txt
+
 # Generate on crash by the VM
 erl_crash.dump
 

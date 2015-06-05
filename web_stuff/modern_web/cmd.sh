@@ -34,6 +34,12 @@ case $1 in
     mix archive.install https://github.com/phoenixframework/phoenix/releases/download/v0.13.1/phoenix_new-0.13.1.ez
     #mix archive.install hex phoenix # this is the future
     ;;
+  phx_dev_release)
+    MIX_ENV=dev mix do phoenix.digest, release
+    ;;
+  phx_prod_release)
+    MIX_ENV=prod mix do phoenix.digest, release
+    ;;
   new_phx)
     mix phoenix.new $2
     ;;

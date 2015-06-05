@@ -1,4 +1,4 @@
-defmodule ParallelService do
+defmodule ModernWeb.Utils.Parallel do
 	def pmap(collection, fun) do
 		me = self
 		collection

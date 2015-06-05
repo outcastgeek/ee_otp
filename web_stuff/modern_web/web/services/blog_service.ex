@@ -10,7 +10,7 @@ defmodule ModernWeb.Web.BlogService do
   alias ModernWeb.Repo
   import Ecto.Query, only: [from: 2]
 
-	import ParallelService, only: [pmap: 2]
+	import ModernWeb.Utils.Parallel, only: [pmap: 2]
 
 	alias Slugger
 
@@ -25,9 +25,7 @@ defmodule ModernWeb.Web.BlogService do
 				 select: thing,
 			   preload: [data: datum])
 		)
-		|> Stream.map(fn thing ->
-			get_post_data(thing)
-		end)
+		|> pmap(fn thing -> get_post_data(thing) end)
 	end
 
 	def create(blog_post) do
