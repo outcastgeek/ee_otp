@@ -1,33 +1,32 @@
-
-defmodule ModernWeb.Web.UserService do
+defmodule ModernWeb.Web.AuthService do
   @moduledoc """
-  Blog Service to Provide Blogging Functionality on top of ThingDB
+  Auth Service to Provide Auth Functionality
   """
-	alias ModernWeb.Thing
-	alias ModernWeb.Datum
+	alias ModernWeb.Role
+	alias ModernWeb.User
   # Alias the data repository and import query/model functions
   alias ModernWeb.Repo
   import Ecto.Model
   import Ecto.Query, only: [from: 2]
 
-	def list_posts(page) do
-		Repo.all(
-			from(thing in Thing,
-				 join: datum in Datum,
-				 on: thing.id == datum.thing_id,
-				 where: thing.name == "post",
-				 select: thing,
-			   preload: [data: datum])
-			)
+	alias Utils.Crypto
+
+	@doc "Securedly creates a new User with the Most Basic Role"
+	def create(user_data) do
+		user_data
+		|> hash_password_in_user_data
+		|> (&(Repo.insert(struct(User, &1)))).()
 	end
 
-	def create(blog_post) do
-		Repo.transaction(
-			fn ->
-				thing = Repo.insert(%Thing{name: "post", version: 1})
-				Repo.insert(%Datum{thing_id: thing.id, key: "title", value: blog_post.title})
-				Repo.insert(%Datum{thing_id: thing.id, key: "content", value: blog_post.content})
-			end	
-		)
+	@doc "Authenticates using Provided Creds"
+  def authenticate(user_data) do
+		user_data
+		|> hash_password_in_user_data
+		|> (&(Repo.get_by(User, &1))).()
+	end
+
+	defp hash_password_in_user_data(user_data) do
+		user_data
+		|> (&(put_in(&1, [:password_hash], Crypto.md5(&1[:password_hash])))).()
 	end
 end

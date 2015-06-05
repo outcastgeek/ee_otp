@@ -1,4 +1,3 @@
-
 defmodule ModernWeb.Web.BlogService do
   @moduledoc """
   Blog Service to Provide Blogging Functionality on top of ThingDB
@@ -10,7 +9,7 @@ defmodule ModernWeb.Web.BlogService do
   alias ModernWeb.Repo
   import Ecto.Query, only: [from: 2]
 
-	import ModernWeb.Utils.Parallel, only: [pmap: 2]
+	import Utils.Parallel, only: [pmap: 2]
 
 	alias Slugger
 
@@ -116,14 +115,7 @@ defmodule ModernWeb.Web.BlogService do
 		post = Map.merge(%{}, Agent.get(post_data, &(&1)))
 		Agent.stop(post_data)
 		Logger.debug post[:title]
-		blog_post = %BlogPost{
-			name: post[:name],
-			score: post[:score],
-			version: post[:version],
-			title: post[:title],
-			slug: post[:slug],
-			content: post[:content]
-		}
+		blog_post = struct(BlogPost, post)
 		blog_post
 	end
 end

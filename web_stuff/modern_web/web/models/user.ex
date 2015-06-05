@@ -16,7 +16,8 @@ defmodule ModernWeb.User do
 		field :role_id, :integer
   end
 
-  @required_fields ~w(email username password_hash confirmed name location about_me member_since last_seen avatar_hash)
+  @required_fields ~w(email username password_hash)
+	#@required_fields ~w(email username password_hash confirmed name location about_me member_since last_seen avatar_hash)
   @optional_fields ~w()
 
   @doc """

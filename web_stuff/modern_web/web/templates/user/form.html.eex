@@ -26,6 +26,11 @@
   </div>
 
   <div class="form-group">
+    <label>Password</label>
+    <%= password_input f, :password_hash, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
     <label>Location</label>
     <%= text_input f, :location, class: "form-control" %>
   </div>

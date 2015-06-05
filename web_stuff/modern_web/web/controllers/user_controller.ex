@@ -2,6 +2,7 @@ defmodule ModernWeb.UserController do
   use ModernWeb.Web, :controller
 
   alias ModernWeb.User
+	alias ModernWeb.Web.AuthService
 
   plug :scrub_params, "user" when action in [:create, :update]
   plug :action
@@ -20,7 +21,8 @@ defmodule ModernWeb.UserController do
     changeset = User.changeset(%User{}, user_params)
 
     if changeset.valid? do
-      Repo.insert(changeset)
+      #Repo.insert(changeset)
+			AuthService.create(changeset.changes)
 
       conn
       |> put_flash(:info, "User created successfully.")
