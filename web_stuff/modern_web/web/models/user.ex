@@ -17,8 +17,9 @@ defmodule ModernWeb.User do
   end
 
   @required_fields ~w(email username password_hash)
+	@optional_fields ~w(confirmed name location about_me member_since last_seen avatar_hash)
 	#@required_fields ~w(email username password_hash confirmed name location about_me member_since last_seen avatar_hash)
-  @optional_fields ~w()
+  #@optional_fields ~w()
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -29,5 +30,27 @@ defmodule ModernWeb.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+		|> validate_length(:password_hash, min: 8)
+		|> validate_confirmation(:password_hash, message: "passwords do not match")
+		|> validate_strong_password(:password_hash)
+		|> validate_length(:about_me, max: 140)
+		|> validate_format(:email, ~r/@/)
+		|> validate_unique(:email, on: ModernWeb.Repo)
+		|> validate_unique(:username, on: ModernWeb.Repo)
   end
+
+	@doc "Validates Strong Passwords"
+	defp validate_strong_password(changeset, field) do
+		Ecto.Changeset.validate_change changeset, field, fn
+			_, value ->
+				result = Comeonin.Password.strong_password?(value)
+				case result do
+					r when is_binary(r) ->
+						[{field, result}]
+					_ ->
+						[]
+				end
+		end
+	end
+
 end

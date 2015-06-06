@@ -30,6 +30,11 @@
     <%= password_input f, :password_hash, class: "form-control" %>
   </div>
 
+ <div class="form-group">
+    <label>Password Confirmation</label>
+    <%= password_input f, :confirmation, class: "form-control" %>
+  </div> 
+
   <div class="form-group">
     <label>Location</label>
     <%= text_input f, :location, class: "form-control" %>

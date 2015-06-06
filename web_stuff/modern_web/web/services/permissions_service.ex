@@ -2,6 +2,7 @@ defmodule ModernWeb.Permissions do
 	@moduledoc """
   The available User Permissions
   """
+	# Rights
 	@follow 0x01
 	def follow, do: @follow
 	
@@ -16,6 +17,16 @@ defmodule ModernWeb.Permissions do
 	
 	@administer 0x80
 	def administer, do: @administer
+
+	# Roles
+	@user_role "User"
+	def user_role, do: @user_role
+
+	@collaborator_role "Collaborator"
+	def collaborator_role, do: @collaborator_role
+
+	@administrator_role "Administrator"
+	def administrator_role, do: @administrator_role
 end
 
 defmodule ModernWeb.PermissionService do
@@ -46,6 +57,11 @@ defmodule ModernWeb.PermissionService do
 																						default: default,
 																						permissions: permissions})
 		role_name
+	end
+
+	@doc "Retrieves Most Basic Role Name"
+	def get_most_basic_role do
+		Repo.get_by!(Role, name: Permissions.user_role)
 	end
 end
 
