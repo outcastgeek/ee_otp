@@ -6,9 +6,6 @@ defmodule ModernWeb do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-		# Setup Password Hashing
-		Application.put_env(:comeonin, :crypto_mod, :pbkdf2)
-
     children = [
       # Start the endpoint when the application starts
       supervisor(ModernWeb.Endpoint, []),

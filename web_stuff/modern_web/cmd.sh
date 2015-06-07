@@ -4,6 +4,10 @@ BASEDIR=$(dirname $0)
 
 case $1 in
 
+  clean_host)
+    docker rm $(docker ps -a -q)
+    docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+    ;;
   install_elixir)
     set -e
 

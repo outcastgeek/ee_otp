@@ -30,11 +30,7 @@ defmodule ModernWeb.Web.AuthService do
 
 	defp hash_password_in_user_data(user_data) do
 		user_data
-		|> (fn data ->
-			    {:ok, hashed_pwd} = Comeonin.create_hash(data[:password_hash])
-					put_in(data, [:password_hash], hashed_pwd)
-		    end).()
-		#|> (&(put_in(&1, [:password_hash], Crypto.md5(&1[:password_hash])))).()
+		|> (&(put_in(&1, [:password_hash], Crypto.hash_string(&1[:password_hash])))).()
 	end
 
 	defp assign_basic_user_role(user_data) do

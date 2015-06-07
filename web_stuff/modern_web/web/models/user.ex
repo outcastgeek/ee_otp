@@ -30,7 +30,6 @@ defmodule ModernWeb.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-		|> validate_length(:password_hash, min: 8)
 		|> validate_confirmation(:password_hash, message: "passwords do not match")
 		|> validate_strong_password(:password_hash)
 		|> validate_length(:about_me, max: 140)
@@ -39,11 +38,18 @@ defmodule ModernWeb.User do
 		|> validate_unique(:username, on: ModernWeb.Repo)
   end
 
+	# https://github.com/elixircnx/comeonin/blob/master/lib/comeonin/password.ex
+	@alpha Enum.concat ?A..?Z, ?a..?z
+  @alphabet ',./!@#$%^&*();:?<>' ++ @alpha ++ '0123456789'
+  @digits String.codepoints("0123456789")
+  @punc String.codepoints(" ,./!@#$%^&*();:?<>")
+	@pass_min_length 8
+	
 	@doc "Validates Strong Passwords"
 	defp validate_strong_password(changeset, field) do
 		Ecto.Changeset.validate_change changeset, field, fn
 			_, value ->
-				result = Comeonin.Password.strong_password?(value)
+				result = strong_password?(value)
 				case result do
 					r when is_binary(r) ->
 						[{field, result}]
@@ -52,5 +58,25 @@ defmodule ModernWeb.User do
 				end
 		end
 	end
+
+	def strong_password?(password) do
+    case pass_length?(String.length(password), @pass_min_length) do
+      true -> has_punc_digit?(password)
+      message -> message
+    end
+  end
+
+  defp pass_length?(word_len, min_len) when word_len < min_len do
+    "The password should be at least #{@pass_min_length} characters long."
+  end
+  defp pass_length?(_, _), do: true
+
+  defp has_punc_digit?(word) do
+    if :binary.match(word, @digits) != :nomatch and :binary.match(word, @punc) != :nomatch do
+      true
+    else
+      "The password should contain at least one number and one punctuation character."
+    end
+  end
 
 end
