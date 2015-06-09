@@ -25,7 +25,12 @@ defmodule ModernWeb.Web.AuthService do
   def authenticate(user_data) do
 		user_data
 		|> hash_password_in_user_data
-		|> (&(Repo.get_by(User, &1))).()
+		|> verify_user
+	end
+
+	defp verify_user(user_data) do
+		user = Repo.get_by(User, user_data)
+		unless is_nil(user), do: user
 	end
 
 	defp hash_password_in_user_data(user_data) do

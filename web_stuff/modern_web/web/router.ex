@@ -16,7 +16,10 @@ defmodule ModernWeb.Router do
     pipe_through :browser # Use the default browser stack
 
 		resources "/roles", RoleController
-		resources "/users", UserController	
+		resources "/users", UserController
+
+		get "/login", UserController, :login
+		post "/process_login", UserController, :process_login
 
     get "/", PageController, :index
 		get "/new", PageController, :new
