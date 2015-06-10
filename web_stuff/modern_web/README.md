@@ -20,3 +20,4 @@ Now you can visit `localhost:4000` from your browser.
 > Taken from https://gist.github.com/10nin/5713366
 > http://www.databasically.com/2011/06/02/mac-os-x-find-the-program-running-on-a-port/
 > http://jimhoskins.com/2013/07/27/remove-untagged-docker-images.html
+> http://hashnuke.com/2013/10/03/managing-processes-with-poolboy-in-elixir.html
