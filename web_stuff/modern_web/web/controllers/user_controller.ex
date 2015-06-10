@@ -14,12 +14,13 @@ defmodule ModernWeb.UserController do
 
 	def process_login(conn, %{"user" => user_params}) do
 		changeset = User.changeset(%User{}, user_params)
-    user = AuthService.authenticate(changeset.changes)
+    user = unless is_nil(changeset.changes[:password_hash]), do: AuthService.authenticate(changeset.changes)
 		IO.inspect user
     if is_nil(user) do
 			conn
 			|> put_flash(:error, "Username and/or Password was wrong")
 			|> render("login.html", changeset: User.changeset(struct(User, user_params)))
+			|> halt
     else
       conn
 			|> put_session(:username, user_params["username"])

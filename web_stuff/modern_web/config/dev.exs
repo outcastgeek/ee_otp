@@ -29,8 +29,8 @@ config :logger, :console, format: "[$level] $message\n"
 # Configure your database
 config :modern_web, ModernWeb.Repo,
   adapter: Ecto.Adapters.Postgres,
-  #username: "postgres",
-  #password: "PgSQL@2015!!",
+  username: "postgres",
+  password: "PgSQL@2015!!",
   #username: "postgres",
   #password: "postgres",
   database: "modern_web_dev",
