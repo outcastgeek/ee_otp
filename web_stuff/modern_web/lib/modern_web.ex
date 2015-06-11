@@ -11,6 +11,7 @@ defmodule ModernWeb do
       supervisor(ModernWeb.Endpoint, []),
       # Start the Ecto repository
       worker(ModernWeb.Repo, []),
+			worker(ModernWeb.Web.BlogService, ["Hard Work"]),
       # Here you could define other workers and supervisors as children
       # worker(ModernWeb.Worker, [arg1, arg2, arg3]),
     ]

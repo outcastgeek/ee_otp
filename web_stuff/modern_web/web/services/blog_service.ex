@@ -1,6 +1,69 @@
 defmodule ModernWeb.Web.BlogService do
-  @moduledoc """
+	@moduledoc """
   Blog Service to Provide Blogging Functionality on top of ThingDB
+  """
+	
+	alias ModernWeb.Web.BlogWorker
+	
+	use GenServer
+
+	######
+	# External API
+	
+	def start_link(state) do
+		GenServer.start_link(__MODULE__, state,
+												 name: __MODULE__,
+												 debug: [:trace, :statistics]
+		)
+	end
+
+	def list_posts(page) do
+		GenServer.call __MODULE__, {:list_posts, page}
+	end
+
+	def create(blog_post) do
+		GenServer.call __MODULE__, {:create, blog_post}
+	end
+
+	def detail(slug) do
+		GenServer.call __MODULE__, {:detail, slug}
+	end
+
+  def update(slug, updated_blog_post) do
+		GenServer.call __MODULE__, {:update, {slug, updated_blog_post}}
+	end
+
+	def delete(slug) do
+		GenServer.call __MODULE__, {:delete, slug}
+	end
+	
+	#####
+	# GenServer Implementation
+	
+	def handle_call({:list_posts, page}, _from, state) do
+		{ :reply, BlogWorker.list_posts(page), state }
+	end
+
+	def handle_call({:create, blog_post}, _from, state) do
+		{ :reply, BlogWorker.create(blog_post), state }
+	end
+	
+  def handle_call({:detail, slug}, _from, state) do
+		{ :reply, BlogWorker.detail(slug), state }
+	end
+
+	def handle_call({:update, {slug, updated_blog_post}}, _from, state) do
+		{ :reply, BlogWorker.update(slug, updated_blog_post), state }
+	end
+
+  def handle_call({:delete, slug}, _from, state) do
+		{ :reply, BlogWorker.delete(slug), state }
+	end
+end
+
+defmodule ModernWeb.Web.BlogWorker do
+  @moduledoc """
+  Blog Service Worker
   """
 	alias ModernWeb.Thing
 	alias ModernWeb.Datum
