@@ -9,12 +9,31 @@ defmodule ModernWeb.Web.BlogService do
 
 	######
 	# External API
-	
+
+	"""
+  :poolboy.start_link([{:name, {:local, pool_name()}},
+												 {:worker_module, __MODULE__},
+												 {:size, 5},
+												 {:max_overflow, 10}] )
+  """
+
 	def start_link(state) do
 		GenServer.start_link(__MODULE__, state,
 												 name: __MODULE__,
 												 debug: [:trace, :statistics]
 		)
+		#GenServer.start_link(__MODULE__, state,
+		#										 debug: [:trace, :statistics]
+		#)
+		#:poolboy.start_link([name: {:local, :blog_service},
+		#										 worker_module: __MODULE__,
+		#										 size: 5,
+		#										 max_overflow: 10])
+		#:poolboy.start_link([{:name, {:local, :blog_service}}, {:worker_module, ModernWeb.Web.BlogService}, {:size, 5}, {:max_overflow, 10}])
+	end
+
+	def init(state) do
+		{:ok, state}
 	end
 
 	def list_posts(page) do

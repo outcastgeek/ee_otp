@@ -8,6 +8,8 @@ defmodule ModernWeb.PageController do
 	plug :scrub_params, "blog_post" when action in [:create, :update]
   plug :action
 
+	#{:ok, pool} = :poolboy.start_link([{:name, {:local, :blog_service}}, {:worker_module, ModernWeb.Web.BlogService}, {:size, 5}, {:max_overflow, 10}])
+
   def index(conn, _params) do
 		posts = BlogService.list_posts(3)
     #render conn, "index.html"
