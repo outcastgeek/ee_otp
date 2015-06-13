@@ -18,13 +18,13 @@ defmodule ModernWeb.Web.BlogService do
   """
 
 	def start_link(state) do
-		GenServer.start_link(__MODULE__, state,
-												 name: __MODULE__,
-												 debug: [:trace, :statistics]
-		)
 		#GenServer.start_link(__MODULE__, state,
+		#										 name: __MODULE__,
 		#										 debug: [:trace, :statistics]
 		#)
+		GenServer.start_link(__MODULE__, state,
+												 debug: [:trace, :statistics]
+		)
 		#:poolboy.start_link([name: {:local, :blog_service},
 		#										 worker_module: __MODULE__,
 		#										 size: 5,
@@ -37,23 +37,33 @@ defmodule ModernWeb.Web.BlogService do
 	end
 
 	def list_posts(page) do
-		GenServer.call __MODULE__, {:list_posts, page}
+		:poolboy.transaction(:blog_service, fn(worker) ->
+			GenServer.call worker, {:list_posts, page}
+		end)
 	end
 
 	def create(blog_post) do
-		GenServer.call __MODULE__, {:create, blog_post}
+		:poolboy.transaction(:blog_service, fn(worker) ->
+			GenServer.call worker, {:create, blog_post}
+		end)
 	end
 
 	def detail(slug) do
-		GenServer.call __MODULE__, {:detail, slug}
+		:poolboy.transaction(:blog_service, fn(worker) ->
+			GenServer.call worker, {:detail, slug}
+		end)
 	end
 
   def update(slug, updated_blog_post) do
-		GenServer.call __MODULE__, {:update, {slug, updated_blog_post}}
+		:poolboy.transaction(:blog_service, fn(worker) ->
+			GenServer.call worker, {:update, {slug, updated_blog_post}}
+		end)
 	end
 
 	def delete(slug) do
-		GenServer.call __MODULE__, {:delete, slug}
+		:poolboy.transaction(:blog_service, fn(worker) ->
+			GenServer.call worker, {:delete, slug}
+		end)
 	end
 	
 	#####

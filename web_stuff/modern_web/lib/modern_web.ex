@@ -13,13 +13,13 @@ defmodule ModernWeb do
       supervisor(ModernWeb.Endpoint, []),
       # Start the Ecto repository
       worker(ModernWeb.Repo, []),
-			worker(ModernWeb.Web.BlogService, ["Hard Work"]),
-			#:poolboy.child_spec(:blog_service,
-			#										[name: {:local, :blog_service},
-			#										 worker_module: ModernWeb.WebBlogService,
-			#										 size: 5,
-			#										 max_overflow: 10], # Pool Options
-			#										["Very Hard Work"]),
+			#worker(ModernWeb.Web.BlogService, ["Hard Work"]),
+			:poolboy.child_spec(:blog_service,
+													[name: {:local, :blog_service},
+													 worker_module: ModernWeb.Web.BlogService,
+													 size: 9,
+													 max_overflow: 27], # Pool Options
+													["Very Hard Work"]),
 			# Here you could define other workers and supervisors as children
       # worker(ModernWeb.Worker, [arg1, arg2, arg3]),
     ]
