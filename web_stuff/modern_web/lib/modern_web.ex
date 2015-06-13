@@ -6,14 +6,17 @@ defmodule ModernWeb do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-		#alias ModernWeb.Web.BlogService
-
     children = [
       # Start the endpoint when the application starts
       supervisor(ModernWeb.Endpoint, []),
       # Start the Ecto repository
       worker(ModernWeb.Repo, []),
-			#worker(ModernWeb.Web.BlogService, ["Hard Work"]),
+			:poolboy.child_spec(:auth_service,
+													[name: {:local, :auth_service},
+													 worker_module: ModernWeb.Web.AuthService,
+													 size: 9,
+													 max_overflow: 27], # Pool Options
+													["The Authentication"]),
 			:poolboy.child_spec(:blog_service,
 													[name: {:local, :blog_service},
 													 worker_module: ModernWeb.Web.BlogService,

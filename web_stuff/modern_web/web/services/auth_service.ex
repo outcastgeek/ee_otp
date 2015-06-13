@@ -1,6 +1,52 @@
 defmodule ModernWeb.Web.AuthService do
-  @moduledoc """
+	@moduledoc """
   Auth Service to Provide Auth Functionality
+  """
+
+	alias ModernWeb.Web.AuthWorker
+	
+	use GenServer
+
+	######
+	# External API
+
+	def start_link(state) do
+		GenServer.start_link(__MODULE__, state,
+												 debug: [:trace, :statistics]
+		)
+	end
+
+	def init(state) do
+		{:ok, state}
+	end
+
+	def create(user_data) do
+		:poolboy.transaction(:auth_service, fn(worker) ->
+			GenServer.call worker, {:create, user_data}
+		end)
+	end
+
+	def authenticate(user_data) do
+		:poolboy.transaction(:auth_service, fn(worker) ->
+			GenServer.call worker, {:authenticate, user_data}
+		end)
+	end
+
+	#####
+	# GenServer Implementation
+
+	def handle_call({:create, user_data}, _from, state) do
+		{:reply, AuthWorker.create(user_data), state}
+	end
+
+	def handle_call({:authenticate, user_data}, _from, state) do
+		{:reply, AuthWorker.authenticate(user_data), state}
+	end
+end
+
+defmodule ModernWeb.Web.AuthWorker do
+  @moduledoc """
+  Auth Service Worker
   """
 	alias ModernWeb.Role
 	alias ModernWeb.User
