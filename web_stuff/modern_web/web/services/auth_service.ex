@@ -32,6 +32,12 @@ defmodule ModernWeb.Web.AuthService do
 		end)
 	end
 
+	def can(user_data, permissions) do
+		:poolboy.transaction(:auth_service, fn(worker) ->
+			GenServer.call worker, {:can, {user_data, permissions}}
+		end)
+	end
+
 	#####
 	# GenServer Implementation
 
@@ -41,6 +47,10 @@ defmodule ModernWeb.Web.AuthService do
 
 	def handle_call({:authenticate, user_data}, _from, state) do
 		{:reply, AuthWorker.authenticate(user_data), state}
+	end
+
+	def handle_call({:can, {user_data, permissions}}, _from, state) do
+		{:reply, AuthWorker.can(user_data, permissions), state}
 	end
 end
 
@@ -74,6 +84,16 @@ defmodule ModernWeb.Web.AuthWorker do
 		|> verify_user
 	end
 
+	@doc "Checks the User Permission"
+	def can(user_data, permissions) do
+		user = Repo.get_by(User, user_data) |> Repo.preload(:role)
+		if is_nil(user) do
+			false
+		else
+			user.confirmed and user.role.permissions == permissions
+		end
+	end
+	
 	defp verify_user(user_data) do
 		user = Repo.get_by(User, user_data)
 		unless is_nil(user), do: user

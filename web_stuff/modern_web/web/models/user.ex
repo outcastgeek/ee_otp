@@ -1,5 +1,7 @@
 defmodule ModernWeb.User do
-  use ModernWeb.Web, :model	
+  use ModernWeb.Web, :model
+
+	alias ModernWeb.Role
 
   schema "users" do
     field :email, :string
@@ -13,7 +15,8 @@ defmodule ModernWeb.User do
     field :last_seen, Ecto.DateTime
     field :avatar_hash, :string
 
-		field :role_id, :integer
+		belongs_to :role, Role
+		#field :role_id, :integer
   end
 
   @required_fields ~w(email username password_hash)
