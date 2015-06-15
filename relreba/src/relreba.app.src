@@ -1,0 +1,12 @@
+{application, relreba,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { relreba_app, []}},
+  {env, []}
+ ]}.
