@@ -46,6 +46,8 @@ config :logger, level: :info
 #     config :modern_web, ModernWeb.Endpoint, server: true
 #
 
+import_config "prod.exometer.exs"
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"

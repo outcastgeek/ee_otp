@@ -18,7 +18,7 @@ defmodule ModernWeb.Mixfile do
   def application do
     [mod: {ModernWeb, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :lager, :exometer]]
   end
 
   # Specifies which paths to compile per environment
@@ -38,6 +38,10 @@ defmodule ModernWeb.Mixfile do
 		 {:poolboy, "~> 1.5.1"},
 		 {:exrm, "~> 0.16.0"},
 		 {:slugger, "~> 0.0.1"},
-		 {:earmark, "~> 0.1.17"}]
+		 {:earmark, "~> 0.1.17"},
+		 {:ex_statsd, ">= 0.5.0"},
+		 {:exometer_core, github: "PSPDFKit-labs/exometer_core", override: true},
+     {:exometer, github: "PSPDFKit-labs/exometer"},
+     {:edown, github: "uwiger/edown", tag: "0.5", override: true}]
   end
 end

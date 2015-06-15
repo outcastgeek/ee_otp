@@ -10,6 +10,13 @@
 #    AWS_KEY: AKIAIZR3NY62HLMIFPTA
 #    AWS_SECRET: 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
 #    SEARCH_BACKEND: sqlalchemy
+graphite:
+  restart: always
+  image: hopsoft/graphite-statsd
+  ports:
+    - "80:80"
+    - "2003:2003"
+    - "8125:8125/udp"
 app:
   build: .
   ports:
@@ -19,6 +26,7 @@ app:
     PORT: 8080
   links:
     - db
+    - graphite
 db:
   restart: always
   image: postgres:latest

@@ -18,6 +18,8 @@ defmodule ModernWeb.Endpoint do
 
   plug Plug.Logger
 
+	plug PlugExometer
+
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],

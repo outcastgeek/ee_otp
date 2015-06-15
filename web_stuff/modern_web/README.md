@@ -23,3 +23,6 @@ Now you can visit `localhost:4000` from your browser.
 > http://hashnuke.com/2013/10/03/managing-processes-with-poolboy-in-elixir.html
 > https://github.com/sasa1977/exactor_demos/blob/master/lib/parallel/pool_square.ex
 > https://github.com/thestonefox/elixir_poolboy_example
+> http://zohaib.me/setting-up-elixir-cluster/
+> https://medium.com/@mschae/measuring-your-phoenix-app-d63a77b13bda
+
