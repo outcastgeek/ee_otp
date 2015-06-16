@@ -27,6 +27,16 @@ defmodule ModernWeb.Permissions do
 
 	@administrator_role "Administrator"
 	def administrator_role, do: @administrator_role
+
+	# Permissions
+	@user_perms @follow + @comment + @collaborate
+	def user_perms, do: @user_perms
+
+	@collaborator_perms @follow + @comment + @collaborate + @moderate_comments
+	def collaborator_perms, do: @collaborator_perms
+
+	@administrator_perms 0xff #@follow + @comment + @collaborate + @moderate_comments + @administer
+	def administrator_perms, do: @administrator_perms
 end
 
 defmodule ModernWeb.PermissionService do

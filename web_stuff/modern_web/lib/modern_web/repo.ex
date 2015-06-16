@@ -2,10 +2,10 @@ defmodule ModernWeb.Repo do
   use Ecto.Repo, otp_app: :modern_web
 	alias :exometer, as: Exometer
 
-	def log({atom, cmd, params}, fun) do
+	def log(entry) do
     before_time = :os.timestamp
  
-    result = super({atom, cmd, params}, fun)
+    result = super(entry)
  
     after_time = :os.timestamp
     diff = :timer.now_diff after_time, before_time
@@ -19,6 +19,6 @@ defmodule ModernWeb.Repo do
     result
   end
 
-  def log(atom, fun), do: super(atom, fun)
+  def log(entry), do: super(entry)
 
 end

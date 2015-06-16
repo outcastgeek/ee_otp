@@ -86,7 +86,7 @@ defmodule ModernWeb.Web.AuthWorker do
 
 	@doc "Checks the User Permission"
 	def can(user_data, permissions) do
-		user = Repo.get_by(User, user_data) |> Repo.preload(:role)
+		user = Repo.get_by(User, user_data) |> (&(unless is_nil(&1), do: Repo.preload(&1, :role))).()
 		if is_nil(user) do
 			false
 		else

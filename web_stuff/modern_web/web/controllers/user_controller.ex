@@ -1,10 +1,12 @@
 defmodule ModernWeb.UserController do
   use ModernWeb.Web, :controller
 
+	alias ModernWeb.Permissions
   alias ModernWeb.User
 	alias ModernWeb.Web.AuthService
 
   plug :scrub_params, "user" when action in [:create, :update, :process_login]
+	plug AuthPlug, Permissions.user_perms when action in [:index, :new, :create, :show, :edit, :update, :delete]
   plug :action
 
 	def login(conn, _params) do
@@ -15,7 +17,6 @@ defmodule ModernWeb.UserController do
 	def process_login(conn, %{"user" => user_params}) do
 		changeset = User.changeset(%User{}, user_params)
     user = unless is_nil(changeset.changes[:password_hash]), do: AuthService.authenticate(changeset.changes)
-		IO.inspect user
     if is_nil(user) do
 			conn
 			|> put_flash(:error, "Username and/or Password was wrong")

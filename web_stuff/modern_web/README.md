@@ -8,6 +8,15 @@ To start your new Phoenix application:
 Now you can visit `localhost:4000` from your browser.
 
 
+**Clean Tables**:
+
+> drop table data;
+> drop table things;
+> drop table posts;
+> drop table users;
+> drop table roles;
+> drop table schema_migrations;
+
 **Links**:
 
 > https://speakerdeck.com/vanstee/elixir-and-ecto
