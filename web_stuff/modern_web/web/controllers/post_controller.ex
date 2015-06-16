@@ -1,9 +1,11 @@
 defmodule ModernWeb.PostController do
   use ModernWeb.Web, :controller
 
+	alias ModernWeb.Permissions
   alias ModernWeb.Post
 
   plug :scrub_params, "post" when action in [:create, :update]
+	plug AuthPlug, Permissions.user_perms when action in [:new, :create, :edit, :update, :delete]
   plug :action
 
   def index(conn, _params) do

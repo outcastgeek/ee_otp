@@ -1,11 +1,14 @@
 defmodule ModernWeb.PageController do
   use ModernWeb.Web, :controller
+
+	alias ModernWeb.Permissions
 	alias ModernWeb.BlogPost
 	alias ModernWeb.Web.BlogService
 
 	require Logger
 
 	plug :scrub_params, "blog_post" when action in [:create, :update]
+	plug AuthPlug, Permissions.user_perms when action in [:new, :create, :edit, :update, :delete]
   plug :action
 
 	#{:ok, pool} = :poolboy.start_link([{:name, {:local, :blog_service}}, {:worker_module, ModernWeb.Web.BlogService}, {:size, 5}, {:max_overflow, 10}])

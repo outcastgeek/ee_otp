@@ -1,9 +1,11 @@
 defmodule ModernWeb.RoleController do
   use ModernWeb.Web, :controller
 
+	alias ModernWeb.Permissions
   alias ModernWeb.Role
 
   plug :scrub_params, "role" when action in [:create, :update]
+	plug AuthPlug, Permissions.administrator_perms when action in [:index, :new, :create, :show, :edit, :update, :delete]
   plug :action
 
   def index(conn, _params) do
