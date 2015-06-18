@@ -86,11 +86,11 @@ defmodule ModernWeb.Web.AuthWorker do
 
 	@doc "Checks the User Permission"
 	def can(user_data, permissions) do
-		user = Repo.get_by(User, user_data) |> (&(unless is_nil(&1), do: Repo.preload(&1, :role))).()
+		user = Repo.get_by(User, Map.merge(user_data, %{confirmed: true})) |> (&(unless is_nil(&1), do: Repo.preload(&1, :role))).()
 		if is_nil(user) do
 			false
 		else
-			user.confirmed and user.role.permissions == permissions
+			user.role.permissions == permissions
 		end
 	end
 	

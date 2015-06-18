@@ -2,14 +2,17 @@ defmodule ModernWeb.Permissions do
 	@moduledoc """
   The available User Permissions
   """
+
+	use Bitwise, only_operators: true
+	
 	# Rights
 	@follow 0x01
 	def follow, do: @follow
 	
-	@comment 0x02
+	@comment 0x02 
 	def comment, do: @comment
 	
-	@collaborate 0x04
+	@collaborate 0x04 
 	def collaborate, do: @collaborate
 	
 	@moderate_comments 0x08
@@ -29,10 +32,10 @@ defmodule ModernWeb.Permissions do
 	def administrator_role, do: @administrator_role
 
 	# Permissions
-	@user_perms @follow + @comment + @collaborate
+	@user_perms @follow ||| @comment ||| @collaborate
 	def user_perms, do: @user_perms
 
-	@collaborator_perms @follow + @comment + @collaborate + @moderate_comments
+	@collaborator_perms @follow ||| @comment ||| @collaborate ||| @moderate_comments
 	def collaborator_perms, do: @collaborator_perms
 
 	@administrator_perms 0xff #@follow + @comment + @collaborate + @moderate_comments + @administer

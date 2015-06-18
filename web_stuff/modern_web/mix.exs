@@ -39,8 +39,10 @@ defmodule ModernWeb.Mixfile do
 		 {:exrm, "~> 0.16.0"},
 		 {:slugger, "~> 0.0.1"},
 		 {:earmark, "~> 0.1.17"},
-		 {:exometer_core, github: "PSPDFKit-labs/exometer_core", override: true},
-     {:exometer, github: "PSPDFKit-labs/exometer"},
-     {:edown, github: "uwiger/edown", tag: "0.5", override: true}]
+		 {:lager, github: "basho/lager", tag: "2.1.1", override: true},
+		 {:meck, github: "basho/lager", tag: "0.8.2", override: true},
+		 {:exometer_core, github: "PSPDFKit-labs/exometer_core", tag: "1.0", override: true},
+     {:exometer, github: "PSPDFKit-labs/exometer", tag: "1.1", override: true},
+     {:edown, github: "uwiger/edown", tag: "0.6", override: true}]
   end
 end

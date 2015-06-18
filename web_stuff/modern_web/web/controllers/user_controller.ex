@@ -6,7 +6,7 @@ defmodule ModernWeb.UserController do
 	alias ModernWeb.Web.AuthService
 
   plug :scrub_params, "user" when action in [:create, :update, :process_login]
-	plug AuthPlug, Permissions.administrator_perms when action in [:index, :new, :create, :show, :edit, :update, :delete]
+	plug AuthPlug, Permissions.administrator_perms when action in [:index, :show, :edit, :update, :delete]
   plug :action
 
 	def login(conn, _params) do
