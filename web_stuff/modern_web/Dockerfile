@@ -42,7 +42,8 @@ RUN echo "Installing Erlang and Elixir"
 #RUN /tmp/cmd.sh install_elixir
 #RUN apt-get -y install runit erlang erlang-ssl erlang-inets elixir
 #RUN apt-get -y install runit erlang-dev erlang-ssl erlang-inets elixir
-RUN apt-get -y install runit erlang-base-hipe erlang-ssl erlang-inets elixir
+#RUN apt-get -y install runit erlang-base-hipe erlang-ssl erlang-inets elixir
+RUN apt-get -y install runit erlang-dev erlang-base-hipe erlang-ssl erlang-inets elixir
 RUN echo "Install local Elixir hex and rebar"
 RUN /usr/local/bin/mix local.hex --force && \
     /usr/local/bin/mix local.rebar --force
