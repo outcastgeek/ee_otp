@@ -33,7 +33,7 @@ db:
   ports:
     - "5432:5432"
   environment:
-    POSTGRES_DB: modern_web_prod
+    #POSTGRES_DB: modern_web_prod
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: PgSQL@2015!!
 

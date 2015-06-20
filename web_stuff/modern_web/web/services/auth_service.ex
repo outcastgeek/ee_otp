@@ -45,11 +45,11 @@ defmodule ModernWeb.Web.AuthService do
 		{:reply, AuthWorker.create(user_data), state}
 	end
 
-	def handle_call({:authenticate, user_data}, _from, state) do
+	def handle_call({:authenticate, user_data}, state) do
 		{:reply, AuthWorker.authenticate(user_data), state}
 	end
 
-	def handle_call({:can, {user_data, permissions}}, _from, state) do
+	def handle_call({:can, {user_data, permissions}}, state) do
 		{:reply, AuthWorker.can(user_data, permissions), state}
 	end
 end

@@ -46,8 +46,23 @@ config :logger, level: :info
 #     config :modern_web, ModernWeb.Endpoint, server: true
 #
 
-import_config "prod.exometer.exs"
+# Monitoring Configuration
+#import_config "prod.statsd.exs"
+config :ex_statsd,
+       host: "graphite",
+       port: 8125,
+       namespace: "modern_web"
+
+# Crypto Configuration
+config :comeonin,
+  crypto_mod: :pbkdf2,
+  bcrypt_log_rounds: 14,
+  pbkdf2_rounds: 100_000,
+  pass_length: 16,
+  pass_min_length: 12
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
+
+

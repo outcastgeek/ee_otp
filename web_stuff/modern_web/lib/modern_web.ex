@@ -16,13 +16,19 @@ defmodule ModernWeb do
 													 worker_module: ModernWeb.Web.AuthService,
 													 size: 9,
 													 max_overflow: 27], # Pool Options
-													["The Authentication"]),
+													["The Authenticater"]),
 			:poolboy.child_spec(:blog_service,
 													[name: {:local, :blog_service},
 													 worker_module: ModernWeb.Web.BlogService,
 													 size: 9,
 													 max_overflow: 27], # Pool Options
 													["Very Hard Work"]),
+			:poolboy.child_spec(:statsd_service,
+													[name: {:local, :statsd_service},
+													 worker_module: ModernWeb.Web.StatsDService,
+													 size: 81,
+													 max_overflow: 6561], # Pool Options
+													["The Stats Collector"]),
 			# Here you could define other workers and supervisors as children
       # worker(ModernWeb.Worker, [arg1, arg2, arg3]),
     ]

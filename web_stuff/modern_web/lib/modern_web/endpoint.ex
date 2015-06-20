@@ -18,7 +18,7 @@ defmodule ModernWeb.Endpoint do
 
   plug Plug.Logger
 
-	unless Mix.env != :prod, do: plug PlugExometer
+	unless Mix.env != :prod, do: plug PlugStatsD
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

@@ -1,6 +1,8 @@
 defmodule ModernWeb.Repo do
+
   use Ecto.Repo, otp_app: :modern_web
-	alias :exometer, as: Exometer
+
+	alias ModernWeb.Web.StatsDService
 
 	def log(entry) do
     before_time = :os.timestamp
@@ -11,11 +13,8 @@ defmodule ModernWeb.Repo do
     diff = :timer.now_diff after_time, before_time
 
 		unless Mix.env != :prod do
-			#:ok = :exometer.update ~w(:modern_web ecto query_exec_time)a, diff / 1_000
-			Exometer.update [:modern_web, :ecto, :query_exec_time], diff / 1_000
-
-			#:ok = :exometer.update ~w(:modern_web ecto query_count)a, 1
-			Exometer.update [:modern_web, :ecto, :query_count], 1
+			StatsDService.timer diff / 1_000, "ecto.query_exec_time"
+			StatsDService.increment "ecto.query_count"
 		end
  
     result

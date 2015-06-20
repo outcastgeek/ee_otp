@@ -34,4 +34,6 @@ Now you can visit `localhost:4000` from your browser.
 > https://github.com/thestonefox/elixir_poolboy_example
 > http://zohaib.me/setting-up-elixir-cluster/
 > https://medium.com/@mschae/measuring-your-phoenix-app-d63a77b13bda
+> https://meatherly.github.io/2015/05/11/phoenixauthentication/
+
 
