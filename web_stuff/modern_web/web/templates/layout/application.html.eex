@@ -16,6 +16,9 @@
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+	  <li><%= link "users", to: user_path(@conn, :index), class: "" %></li>
+	  <li><%= link "blog", to: page_path(@conn, :index), class: "" %></li>
+	  <li><%= link "posts", to: post_path(@conn, :index), class: "" %></li>
         </ul>
         <span class="logo"></span>
       </div>
