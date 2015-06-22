@@ -7,13 +7,21 @@ defmodule ModernWeb.Web.AuthService do
 	
 	use GenServer
 
+	defp run(:dev, state) do
+		GenServer.start_link(__MODULE__, state,
+												 debug: [:trace, :statistics]
+		)
+	end
+
+	defp run(:prod, state) do
+		GenServer.start_link(__MODULE__, state)
+	end
+	
 	######
 	# External API
 
 	def start_link(state) do
-		GenServer.start_link(__MODULE__, state,
-												 debug: [:trace, :statistics]
-		)
+		run(Mix.env, state)
 	end
 
 	def init(state) do
@@ -45,11 +53,11 @@ defmodule ModernWeb.Web.AuthService do
 		{:reply, AuthWorker.create(user_data), state}
 	end
 
-	def handle_call({:authenticate, user_data}, state) do
+	def handle_call({:authenticate, user_data}, _from, state) do
 		{:reply, AuthWorker.authenticate(user_data), state}
 	end
 
-	def handle_call({:can, {user_data, permissions}}, state) do
+	def handle_call({:can, {user_data, permissions}}, _from, state) do
 		{:reply, AuthWorker.can(user_data, permissions), state}
 	end
 end

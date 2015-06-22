@@ -7,13 +7,21 @@ defmodule ModernWeb.Web.BlogService do
 	
 	use GenServer
 
+	defp run(:dev, state) do
+		GenServer.start_link(__MODULE__, state,
+												 debug: [:trace, :statistics]
+		)
+	end
+
+	defp run(:prod, state) do
+		GenServer.start_link(__MODULE__, state)
+	end
+
 	######
 	# External API
 
 	def start_link(state) do
-		GenServer.start_link(__MODULE__, state,
-												 debug: [:trace, :statistics]
-		)
+		run(Mix.env, state)
 	end
 
 	def init(state) do
