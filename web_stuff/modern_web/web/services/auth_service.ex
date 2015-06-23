@@ -98,7 +98,7 @@ defmodule ModernWeb.Web.AuthWorker do
 		if is_nil(user) do
 			false
 		else
-			user.role.permissions == permissions
+			user.role.permissions >= permissions
 		end
 	end
 	

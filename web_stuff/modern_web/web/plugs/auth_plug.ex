@@ -29,6 +29,8 @@ defmodule AuthPlug do
 	defp cant_proceed(conn) do
 		conn
 		|> put_flash(:error, "Not Authorized, Please Login with the Right Credentials")
-		|> redirect(to: user_path(conn, :login))
+		|> redirect(to: session_path(conn, :login))
 	end
 end
+
+  

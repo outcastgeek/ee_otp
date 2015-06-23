@@ -19,6 +19,19 @@
 	  <li><%= link "users", to: user_path(@conn, :index), class: "" %></li>
 	  <li><%= link "blog", to: page_path(@conn, :index), class: "" %></li>
 	  <li><%= link "posts", to: post_path(@conn, :index), class: "" %></li>
+	  <%= if @username == "anonymous" do %>
+	  <li>
+	   <%= link "Login", to: session_path(@conn, :login), class: "" %> 
+	  </li>
+	  <% else %>
+	  <li>
+	    <i class="glyphicon glyphicon-user"></i>
+	    <%= @username %>
+	  </li>
+	  <li>
+	    <%= link "Logout", to: session_path(@conn, :logout), method: :delete, class: "btn btn-danger btn-xs" %>
+	  </li>
+	  <% end %>
         </ul>
         <span class="logo"></span>
       </div>
@@ -26,6 +39,15 @@
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
+      <div class="jumbotron">
+
+	<h2>The Modern Web!</h2>
+	<p class="lead">Most frameworks make you choose between speed and a productive environment. <a href="http://phoenixframework.org">Phoenix</a> and <a href="http://elixir-lang.org">Elixir</a> give you both.</p>
+	
+	<p><%= handler_info @conn %></p>
+
+      </div>
+      
       <%= @inner %>
 
     </div> <!-- /container -->

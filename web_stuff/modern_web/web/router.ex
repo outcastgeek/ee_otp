@@ -6,6 +6,9 @@ defmodule ModernWeb.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
+
+		plug SessionPlug
+	  unless Mix.env != :prod, do: plug PlugStatsD
   end
 
   pipeline :api do
@@ -18,8 +21,9 @@ defmodule ModernWeb.Router do
 		resources "/roles", RoleController
 		resources "/users", UserController
 
-		get "/login", UserController, :login
-		post "/process_login", UserController, :process_login
+		get "/login", SessionController, :login
+		post "/process_login", SessionController, :process_login
+		delete "/logout", SessionController, :logout
 
     get "/", PageController, :index
 		get "/new", PageController, :new
