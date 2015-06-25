@@ -50,7 +50,7 @@ defmodule ModernWeb.UserController do
     changeset = User.changeset(user, user_params)
 
     if changeset.valid? do
-      Repo.update(changeset)
+      AuthService.update(changeset.changes)
 
       conn
       |> put_flash(:info, "User updated successfully.")

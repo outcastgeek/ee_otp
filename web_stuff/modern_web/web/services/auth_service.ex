@@ -34,6 +34,12 @@ defmodule ModernWeb.Web.AuthService do
 		end)
 	end
 
+	def update(user_data) do
+		:poolboy.transaction(:auth_service, fn(worker) ->
+			GenServer.call worker, {:update, user_data}
+		end)
+	end
+
 	def authenticate(user_data) do
 		:poolboy.transaction(:auth_service, fn(worker) ->
 			GenServer.call worker, {:authenticate, user_data}
@@ -51,6 +57,10 @@ defmodule ModernWeb.Web.AuthService do
 
 	def handle_call({:create, user_data}, _from, state) do
 		{:reply, AuthWorker.create(user_data), state}
+	end
+
+	def handle_call({:update, user_data}, _from, state) do
+		{:reply, AuthWorker.update(user_data), state}
 	end
 
 	def handle_call({:authenticate, user_data}, _from, state) do
@@ -83,6 +93,14 @@ defmodule ModernWeb.Web.AuthWorker do
 		|> hash_password_in_user_data
 		|> assign_basic_user_role
 		|> (&(Repo.insert(struct(User, &1)))).()
+	end
+
+	@doc "Securedly updates an existing User"
+	def update(user_data) do
+		user_data
+		|> hash_password_in_user_data
+		|> assign_basic_user_role
+		|> (&(Repo.update(struct(User, &1)))).()
 	end
 
 	@doc "Authenticates using Provided Creds"
