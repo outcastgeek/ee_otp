@@ -46,6 +46,17 @@ config :logger, level: :info
 #     config :modern_web, ModernWeb.Endpoint, server: true
 #
 
+# Service Configuration
+config :auth_service,
+  size: 9,
+  max_overflow: 27
+config :blog_service,
+  size: 9,
+  max_overflow: 27
+config :statsd_service,
+  size: 81,
+  max_overflow: 6561
+
 # Monitoring Configuration
 #import_config "prod.statsd.exs"
 config :ex_statsd,

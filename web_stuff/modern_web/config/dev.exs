@@ -29,9 +29,20 @@ config :logger, :console, format: "[$level] $message\n"
 # Configure your database
 config :modern_web, ModernWeb.Repo,
   adapter: Ecto.Adapters.Postgres,
-  #username: "postgres",
-  #password: "PgSQL@2015!!",
+  username: "postgres",
+  password: "PgSQL@2015!!",
   #username: "postgres",
   #password: "postgres",
   database: "modern_web_dev",
   size: 10 # The amount of database connections in the pool
+
+# Service Configuration
+config :auth_service,
+  size: 3,
+  max_overflow: 9
+config :blog_service,
+  size: 3,
+  max_overflow: 9
+config :statsd_service,
+  size: 3,
+  max_overflow: 9

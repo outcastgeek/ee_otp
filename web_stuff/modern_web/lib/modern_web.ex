@@ -14,20 +14,20 @@ defmodule ModernWeb do
 			:poolboy.child_spec(:auth_service,
 													[name: {:local, :auth_service},
 													 worker_module: ModernWeb.Web.AuthService,
-													 size: 9,
-													 max_overflow: 27], # Pool Options
+													 size: get_env(:auth_service, :size),
+													 max_overflow: get_env(:auth_service, :max_overflow)], # Pool Options
 													["The Authenticater"]),
 			:poolboy.child_spec(:blog_service,
 													[name: {:local, :blog_service},
 													 worker_module: ModernWeb.Web.BlogService,
-													 size: 9,
-													 max_overflow: 27], # Pool Options
+													 size: get_env(:blog_service, :size),
+													 max_overflow: get_env(:blog_service, :max_overflow)], # Pool Options
 													["Very Hard Work"]),
 			:poolboy.child_spec(:statsd_service,
 													[name: {:local, :statsd_service},
 													 worker_module: ModernWeb.Web.StatsDService,
-													 size: 81,
-													 max_overflow: 6561], # Pool Options
+													 size: get_env(:statsd_service, :size),
+													 max_overflow: get_env(:statsd_service, :max_overflow)], # Pool Options
 													["The Stats Collector"]),
 			# Here you could define other workers and supervisors as children
       # worker(ModernWeb.Worker, [arg1, arg2, arg3]),
@@ -45,4 +45,8 @@ defmodule ModernWeb do
     ModernWeb.Endpoint.config_change(changed, removed)
     :ok
   end
+
+	defp get_env(name, key) do
+		Application.get_env(name, key)
+	end
 end
