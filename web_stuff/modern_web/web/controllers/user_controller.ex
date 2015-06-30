@@ -7,7 +7,6 @@ defmodule ModernWeb.UserController do
 
   plug :scrub_params, "user" when action in [:create, :update, :process_login]
 	plug AuthPlug, Permissions.administrator_perms when action in [:index, :show, :edit, :update, :delete]
-  plug :action
 
   def index(conn, _params) do
     users = Repo.all(User)

@@ -6,7 +6,6 @@ defmodule ModernWeb.RoleController do
 
   plug :scrub_params, "role" when action in [:create, :update]
 	plug AuthPlug, Permissions.administrator_perms when action in [:index, :new, :create, :show, :edit, :update, :delete]
-  plug :action
 
   def index(conn, _params) do
     roles = Repo.all(Role)

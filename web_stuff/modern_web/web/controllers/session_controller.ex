@@ -5,7 +5,6 @@ defmodule ModernWeb.SessionController do
 	alias ModernWeb.Web.AuthService
 
   plug :scrub_params, "user" when action in [:process_login]
-  plug :action
 
 	def login(conn, _params) do
 		changeset = User.changeset(%User{})

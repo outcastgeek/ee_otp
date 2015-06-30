@@ -6,7 +6,6 @@ defmodule ModernWeb.PostController do
 
   plug :scrub_params, "post" when action in [:create, :update]
 	plug AuthPlug, Permissions.user_perms when action in [:new, :create, :edit, :update, :delete]
-  plug :action
 
   def index(conn, _params) do
     posts = Repo.all(Post)
