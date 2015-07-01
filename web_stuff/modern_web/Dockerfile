@@ -12,18 +12,13 @@ RUN apt-get update
 RUN echo "- done."
 
 RUN echo "Installing Essential Tools"
-RUN apt-get install -y runit locales curl wget git build-essential ca-certificates
-RUN echo "- done."
-
-RUN echo "Updating source.list"
-#RUN echo "deb http://packages.erlang-solutions.com/ubuntu vivid contrib" >> /etc/apt/sources.list
-RUN echo "deb http://packages.erlang-solutions.com/ubuntu trusty contrib" >> /etc/apt/sources.list
-RUN wget http://packages.erlang-solutions.com/debian/erlang_solutions.asc
-RUN apt-key add erlang_solutions.asc
-RUN apt-get update
-RUN wget http://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
-RUN dpkg -i erlang-solutions_1.0_all.deb
-RUN apt-get update
+RUN apt-get install -y runit locales \
+                       curl wget git \
+		       build-essential \
+		       ca-certificates \
+		       libncurses5-dev \
+		       openssl libssl-dev \
+		       fop xsltproc unixodbc-dev
 RUN echo "- done."
 
 # Set the locale
@@ -32,31 +27,22 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-RUN echo "Running apt-get update"
-RUN apt-get update
-RUN echo "- done."
+COPY . /code
+
+WORKDIR /code
 
 RUN echo "Installing Erlang and Elixir"
-#RUN apt-get -y install erlang erlang-ssl erlang-inets
-#ADD ./cmd.sh /tmp/cmd.sh
-#RUN /tmp/cmd.sh install_elixir
-#RUN apt-get -y install runit erlang erlang-ssl erlang-inets elixir
-#RUN apt-get -y install runit erlang-dev erlang-ssl erlang-inets elixir
-#RUN apt-get -y install runit erlang-base-hipe erlang-ssl erlang-inets elixir
-RUN apt-get -y install runit erlang-dev erlang-base-hipe erlang-ssl erlang-inets elixir
-RUN echo "Install local Elixir hex and rebar"
-RUN /usr/local/bin/mix local.hex --force && \
-    /usr/local/bin/mix local.rebar --force
+
+RUN ./cmd.sh install_erlang
+
+RUN ./cmd.sh install_elixir
+
 RUN echo "- done."
 
 RUN echo "Installing Nodejs and NPM"
 RUN mkdir /nodejs && curl http://nodejs.org/dist/v0.12.4/node-v0.12.4-linux-x64.tar.gz | tar xvzf - -C /nodejs --strip-components=1
 RUN echo "Add Node.js installation to PATH, and set"
 ENV PATH $PATH:/nodejs/bin
-
-COPY . /code
-
-WORKDIR /code
 
 RUN echo "Installing Node Libraries"
 RUN npm install

@@ -8,13 +8,45 @@ case $1 in
     docker rm $(docker ps -a -q)
     docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
     ;;
+  install_erlang)
+    set -e
+
+    echo "Installing Erlang ..."
+
+    OTP_VERSION=18.0
+    REBAR_VERSION=2.6.0
+    RELX_VERSION=v3.0.0
+
+    wget http://erlang.org/download/otp_src_${OTP_VERSION}.tar.gz -O /usr/src/otp_src_${OTP_VERSION}.tar.gz
+
+    cd /usr/src \
+    && tar xf otp_src_${OTP_VERSION}.tar.gz \
+    && cd otp_src_${OTP_VERSION} \
+    && ./configure \
+    && make \
+    && make install \
+    && cd / && rm -rf /usr/src/otp_src_${OTP_VERSION}
+
+    echo "Installing Rebar ..."
+
+    wget https://github.com/rebar/rebar/archive/${REBAR_VERSION}.tar.gz -O  /usr/src/rebar-${REBAR_VERSION}.tar.gz
+
+    cd /usr/src \
+    && tar zxf rebar-${REBAR_VERSION}.tar.gz \
+    && cd rebar-${REBAR_VERSION} \
+    && make \
+    && cp rebar /usr/bin/rebar \
+    && cd / && rm -rf /usr/src/rebar-${REBAR_VERSION}
+
+    echo "- done."
+    ;;
   install_elixir)
     set -e
 
     echo "Installing Elixir ..."
 
     ELIXIR=elixir
-    ELIXIR_VERSION=1.0.4
+    ELIXIR_VERSION=1.0.5
     ELIXIR_PACKAGE=v$ELIXIR_VERSION
     ELIXIR_PACKAGE_DIR=elixir-$ELIXIR_VERSION
     ELIXIR_ARCHIVE=$ELIXIR_PACKAGE.tar.gz
@@ -29,6 +61,8 @@ case $1 in
       make
       make install
 
+    echo "Install local Elixir hex and rebar"
+      
     mix local.hex --force
     mix local.rebar --force
 
@@ -37,8 +71,14 @@ case $1 in
   check_local_port)
     lsof -i :$2
     ;;
+  wipe_clean)
+    # Delete all containers
+    docker rm $(docker ps -a -q)
+    # Delete all images
+    docker rmi $(docker images -q)
+    ;;
   install_phx)
-    mix archive.install https://github.com/phoenixframework/phoenix/releases/download/v0.13.1/phoenix_new-0.13.1.ez
+    mix archive.install https://github.com/phoenixframework/phoenix/releases/download/v0.14.0/phoenix_new-0.14.0.ez
     #mix archive.install hex phoenix # this is the future
     ;;
   phx_dev_release)
