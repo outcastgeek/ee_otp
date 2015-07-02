@@ -112,11 +112,11 @@ defmodule ModernWeb.Web.BlogWorker do
 	end
 
 	def create(blog_post) do
-		thing = Repo.insert(%Thing{name: "post", version: 1})
+		thing = Repo.insert!(%Thing{name: "post", version: 1})
 		[%Datum{thing_id: thing.id, key: "title", value: blog_post.title},
 		 %Datum{thing_id: thing.id, key: "slug", value: Slugger.slugify_downcase(blog_post.title)},
 		 %Datum{thing_id: thing.id, key: "content", value: blog_post.content}]
-		|> pmap(fn data -> Repo.insert(data) end)
+		|> pmap(fn data -> Repo.insert!(data) end)
 	end
 
 	def detail(slug) do
@@ -141,8 +141,8 @@ defmodule ModernWeb.Web.BlogWorker do
 		Repo.transaction(
 			fn ->
 				thing.data
-				|> pmap(fn datum -> Repo.delete(datum) end)
-				Repo.delete(thing)
+				|> pmap(fn datum -> Repo.delete!(datum) end)
+				Repo.delete!(thing)
 			end)
 	end
 
@@ -151,16 +151,16 @@ defmodule ModernWeb.Web.BlogWorker do
 		  content_update = Dict.get(blog_post_update, :content)
 			Repo.transaction(
 				fn ->
-					Repo.update(%{thing | version: thing.version + 1})
+					Repo.update!(%{thing | version: thing.version + 1})
 				  thing.data
 					|> pmap(fn datum ->
 						cond do
 							datum.key == "title" ->
-								unless is_nil(title_update), do:  Repo.update(%{datum | value: title_update})
+								unless is_nil(title_update), do:  Repo.update!(%{datum | value: title_update})
 					    datum.key == "slug" ->
-						    unless is_nil(title_update), do: Repo.update(%{datum | value: Slugger.slugify_downcase(title_update)})
+						    unless is_nil(title_update), do: Repo.update!(%{datum | value: Slugger.slugify_downcase(title_update)})
 							datum.key == "content" ->
-								unless is_nil(content_update), do: Repo.update(%{datum | value: content_update})
+								unless is_nil(content_update), do: Repo.update!(%{datum | value: content_update})
 						end
 					end)
 				end)

@@ -66,7 +66,7 @@ defmodule ModernWeb.PermissionService do
 					 select: role)
 			)
 	
-		if (role == nil), do: Repo.insert(%Role{name: role_name,
+		if (role == nil), do: Repo.insert!(%Role{name: role_name,
 																						default: default,
 																						permissions: permissions})
 		role_name

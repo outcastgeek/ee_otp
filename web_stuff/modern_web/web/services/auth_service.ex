@@ -92,14 +92,14 @@ defmodule ModernWeb.Web.AuthWorker do
 		user_data
 		|> hash_password_in_user_data
 		|> assign_basic_user_role
-		|> (&(Repo.insert(struct(User, &1)))).()
+		|> (&(Repo.insert!(struct(User, &1)))).()
 	end
 
 	@doc "Securedly updates an existing User"
 	def update(user, user_data) do
 		user_data
 		|> hash_password_in_user_data
-		|> (&(Repo.update(Map.merge(user, &1)))).()
+		|> (&(Repo.update!(Map.merge(user, &1)))).()
 	end
 
 	@doc "Authenticates using Provided Creds"
