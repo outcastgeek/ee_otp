@@ -36,5 +36,6 @@ Now you can visit `localhost:4000` from your browser.
 > https://medium.com/@mschae/measuring-your-phoenix-app-d63a77b13bda
 > https://meatherly.github.io/2015/05/11/phoenixauthentication/
 > http://sevenseacat.net/2015/06/01/custom_page_titles_in_phoenix.html?utm_campaign=elixir_radar_12&utm_medium=email&utm_source=RD+Station
+> https://registry.hub.docker.com/u/correl/erlang/dockerfile/
 
 

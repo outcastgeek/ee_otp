@@ -5,7 +5,6 @@ defmodule AuthPlug do
   import ModernWeb.Router.Helpers
 
 
-	alias ModernWeb.User
 	alias ModernWeb.Web.AuthService
 
 	def init(permissions) do
