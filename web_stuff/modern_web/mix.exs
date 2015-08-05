@@ -39,17 +39,17 @@ defmodule ModernWeb.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 0.14.0"},
-     {:phoenix_ecto, "~> 0.5.0"},
-     {:postgrex, ">= 0.8.4"},
-     {:phoenix_html, "~> 1.2.1"},
-     {:phoenix_live_reload, "~> 0.4.2", only: :dev},
+    [{:phoenix, "~> 0.15.0"},
+     {:phoenix_ecto, "~> 0.9.0"},
+     {:postgrex, ">= 0.9.1"},
+     {:phoenix_html, "~> 2.0.1"},
+     {:phoenix_live_reload, "~> 0.5.2", only: :dev},
      {:cowboy, "~> 1.0"},
 		 {:poolboy, "~> 1.5.1"},
-		 {:exrm, "~> 0.16.0"},
+		 {:exrm, "~> 0.18.6"},
 		 {:slugger, "~> 0.0.1"},
 		 {:earmark, "~> 0.1.17"},
-		 {:comeonin, "~> 1.0.3", only: :prod},
+		 {:comeonin, "~> 1.1.2", only: :prod},
 		 #{:ex_statsd, ">= 0.5.0"}
 		 {:ex_statsd, ">= 0.5.0", only: :prod}
 		]

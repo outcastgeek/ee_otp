@@ -20,6 +20,6 @@ defmodule ModernWeb.Repo do
     result
   end
 
-  def log(entry), do: super(entry)
+  #def log(entry), do: super(entry)
 
 end
