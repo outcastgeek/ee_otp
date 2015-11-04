@@ -12,11 +12,11 @@ RUN echo "- done."
 RUN echo "Installing Essential Tools"
 RUN apt-get install -y runit locales \
                        curl wget git \
-		       build-essential \
-		       ca-certificates \
-		       libncurses5-dev \
-		       openssl libssl-dev \
-		       fop xsltproc unixodbc-dev
+		                   build-essential \
+		                   ca-certificates \
+		                   libncurses5-dev \
+		                   openssl libssl-dev \
+		                   fop xsltproc unixodbc-dev
 RUN echo "- done."
 
 # Set the locale
@@ -69,7 +69,7 @@ RUN cd /usr/src \
     && ln -s /usr/local/elixir/bin/mix /usr/bin/mix
 
 RUN echo "Install local Elixir Hex"
-      
+
 RUN mix local.hex --force
 
 #RUN echo "Install local Elixir rebar"

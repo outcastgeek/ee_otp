@@ -18,7 +18,7 @@ case $1 in
     docker rmi $(docker images -q)
     ;;
   install_phx)
-    mix archive.install https://github.com/phoenixframework/phoenix/releases/download/v0.15.0/phoenix_new-0.15.0.ez
+    mix archive.install https://github.com/phoenixframework/phoenix/releases/download/v1.0.3/phoenix_new-1.0.3.ez
     #mix archive.install hex phoenix # this is the future
     ;;
   phx_dev_release)
