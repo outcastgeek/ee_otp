@@ -17,7 +17,11 @@ defmodule InsightProj.AdHoc do
   end
 
   def one_random_proverb() do
-    "vieupai_proverb" |> get_random_id |> random_proverb_query |> limit(1) |> Repo.one
+    "vieupai_proverb"
+    |> get_random_id
+    |> random_proverb_query
+    |> limit(1)
+    |> Repo.one
   end
 
   def all_proverbs() do
@@ -26,7 +30,11 @@ defmodule InsightProj.AdHoc do
 
   def proverb_query, do: from p in "vieupai_proverb",
     join: pm in "vieupai_proverbmedia",
-    select: %{id: p.id, title: p.title, slug: p.slug, body: p.body, image_url: pm.image_url}
+    select: %{id: p.id,
+              title: p.title,
+              slug: p.slug,
+              body: p.body,
+              image_url: pm.image_url}
 
   #TODO: Revisit the case for which there's no matching Record!!!
   def random_proverb_query(rand_id), do: from pv in proverb_query, where: pv.id == ^rand_id
