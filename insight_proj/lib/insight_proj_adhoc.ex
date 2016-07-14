@@ -20,7 +20,6 @@ defmodule InsightProj.AdHoc do
     |> Repo.one
   end
 
-  #Checkout: http://stackoverflow.com/questions/4329396/mysql-select-10-random-rows-from-600k-rows-fast
   def one_random_proverb() do
     "vieupai_proverb"
     |> get_random_id
