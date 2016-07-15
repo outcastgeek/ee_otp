@@ -35,4 +35,6 @@ config :insight_proj, InsightProj.Repo,
   port: 3416,
   username: "apps",
   password: "appspass",
-  database: "Apps_Admin_DEV"
+  database: "Apps_Admin_DEV",
+  pool_size: 10 # The amount of database connections in the pool
+
