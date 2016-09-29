@@ -1,0 +1,19 @@
+{application, engine,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { engine_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    logjam
+   ]},
+  {env,[]},
+  {modules,
+   [maths
+   ]},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.
