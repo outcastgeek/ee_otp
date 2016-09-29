@@ -1,0 +1,17 @@
+{
+  "name": "LFE Cowboy",
+  "description": "Deploying a LFE / Cowboy App on Heroku",
+  "repository": "https://github.com/outcastgeek/lfe_cowboy",
+  "env": {
+    "GITHUB_OAUTH_TOKEN": {
+      "description": "GitHub Key"
+    }
+  },
+  "addons": [
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-erlang"
+    }
+  ]
+}

@@ -2,6 +2,9 @@
   ;(export (sum 2) (diff 2))
   (export all))
 
+(include-lib "lfe/include/cl.lfe") ;; Common Lisp Macros
+(include-lib "lfe/include/clj.lfe") ;; Clojure Macros
+
 (defun sum (a b)
   "Addition"
   (+ a b))
@@ -16,8 +19,8 @@
 
 (defun doseqcomp (num)
   "Does a bunch of computations from input number"
-  (clj:->> (clj:seq 42)
-                (lists:map (lambda (x) (math:pow x 2)))
-                (lists:filter (clj:comp #'clj:even?/1 #'round/1))
-                (clj:take 10)
-                (lists:foldl #'+/2 0)))
+  (->> (lists:seq 1 num)
+       (lists:map (lambda (x) (math:pow x 2)))
+       ;;(lists:filter (clj:comp #'even?/1 #'round/1))
+       ;;(clj:take 10)
+       (lists:foldl #'+/2 0)))

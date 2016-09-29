@@ -6,6 +6,6 @@ defmodule Web.API.PageController do
       sum: :maths.sum(9, 3),
       diff: :maths.diff(3, 5),
       genseq: :maths.genseq(3, 13),
-      doseqcom: :maths.doseqcomp(9)
+      doseqcomp: :maths.doseqcomp(9)
   end
 end

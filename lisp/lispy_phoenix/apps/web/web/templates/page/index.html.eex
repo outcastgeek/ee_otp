@@ -5,9 +5,9 @@
     <br />
     One Diff: <%= @diff %>
     <br />
-    Gened Seq: <%= @genseq %>
+    Gened Seq: (<%= Enum.join(@genseq, ", ") %>)
     <br />
-    Seq Com: <%= @doseqcom %>
+    Seq Com: <%= @doseqcomp %>
   </p>
 </div>
 

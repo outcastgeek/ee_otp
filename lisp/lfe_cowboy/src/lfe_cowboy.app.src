@@ -1,16 +1,15 @@
-{application, engine,
+{application, lfe_cowboy,
  [{description, "An OTP application"},
   {vsn, "0.1.0"},
-  {registered, []},
-  {mod, { engine_app, []}},
+  {registered, [lfe_cowboy_sup]},
+  {mod, { lfe_cowboy_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    cowboy
    ]},
   {env,[]},
-  {modules,
-   [maths
-   ]},
+  {modules, []},
 
   {maintainers, []},
   {licenses, []},

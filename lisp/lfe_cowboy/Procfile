@@ -1,0 +1,2 @@
+web: ./_rel/lfe_cowboy_release/bin/lfe_cowboy_release foreground
+#web: erl -pa ebin deps/*/ebin -noshell -noinput -s lfe_cowboy_app

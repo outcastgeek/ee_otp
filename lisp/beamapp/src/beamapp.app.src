@@ -1,16 +1,14 @@
-{application, engine,
+{application, beamapp,
  [{description, "An OTP application"},
   {vsn, "0.1.0"},
   {registered, []},
-  {mod, { engine_app, []}},
+  {mod, { beamapp_app, []}},
   {applications,
    [kernel,
     stdlib
    ]},
   {env,[]},
-  {modules,
-   [maths
-   ]},
+  {modules, []},
 
   {maintainers, []},
   {licenses, []},
