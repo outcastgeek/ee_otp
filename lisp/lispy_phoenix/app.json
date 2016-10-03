@@ -1,0 +1,12 @@
+{
+    "name": "Lispy Phoenix",
+    "description": "Exploring the use of LFE into an Elixir Phoenix Umbrella",
+    "buildpacks": [
+        {
+        "url": "https://github.com/HashNuke/heroku-buildpack-elixir.git"
+        },
+        {
+        "url": "https://github.com/gjaldon/heroku-buildpack-phoenix-static.git"
+        }
+    ]
+}
