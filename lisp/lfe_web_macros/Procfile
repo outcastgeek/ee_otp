@@ -1,0 +1,5 @@
+
+#electron: npm start
+#dal: ./roswell/run-dal.ros 6004
+dal: ./bin/dal-exe 6004
+

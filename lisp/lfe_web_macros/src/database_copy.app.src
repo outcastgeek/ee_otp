@@ -1,0 +1,20 @@
+{application, database_copy,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, [database_copy_sup]},
+  {mod, { database_copy_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    cowboy,
+    jsx,
+    syslog_app,
+    p1_mysql,
+    epgsql
+   ]},
+  {env,[]},
+  {modules, []},
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.
